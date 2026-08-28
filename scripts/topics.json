@@ -3,7 +3,6 @@
     { "id": "ai-ml", "name": "Artificial Intelligence & Machine Learning", "difficulty_all": true },
     { "id": "javascript", "name": "JavaScript & Web Development", "difficulty_all": true },
     { "id": "react-native", "name": "React Native & Mobile Development", "difficulty_all": true },
-    { "id": "python", "name": "Python Programming", "difficulty_all": true },
     { "id": "dsa", "name": "Data Structures & Algorithms", "difficulty_all": true },
     { "id": "system-design", "name": "System Design", "difficulty_all": true },
     { "id": "dbms", "name": "Databases & SQL", "difficulty_all": true },
