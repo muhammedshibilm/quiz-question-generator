@@ -9,7 +9,6 @@ on:
 
 permissions:
   contents: write
-  models: read # required to call GitHub Models inference
 
 jobs:
   generate:
@@ -28,7 +27,7 @@ jobs:
 
       - name: Generate questions
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: python scripts/generate_questions.py
 
       - name: Commit updated questions.json
