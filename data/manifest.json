@@ -1,0 +1,105 @@
+{
+  "generated_at": "2026-08-28T11:54:41.515749Z",
+  "topics": [
+    {
+      "id": "ai-ml",
+      "name": "Artificial Intelligence & Machine Learning",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "javascript",
+      "name": "JavaScript & Web Development",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "react-native",
+      "name": "React Native & Mobile Development",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "dsa",
+      "name": "Data Structures & Algorithms",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "system-design",
+      "name": "System Design",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "dbms",
+      "name": "Databases & SQL",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "oop",
+      "name": "Object Oriented Programming",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "networking",
+      "name": "Computer Networks",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "os",
+      "name": "Operating Systems",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    },
+    {
+      "id": "cloud",
+      "name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "counts": {
+        "easy": 0,
+        "medium": 0,
+        "hard": 0
+      },
+      "total": 0
+    }
+  ]
+}
