@@ -10,7 +10,6 @@
     { "id": "oop", "name": "Object Oriented Programming", "difficulty_all": true },
     { "id": "networking", "name": "Computer Networks", "difficulty_all": true },
     { "id": "os", "name": "Operating Systems", "difficulty_all": true },
-    { "id": "cloud", "name": "Cloud Computing (AWS/Azure/GCP basics)", "difficulty_all": true },
-    { "id": "hr", "name": "HR & Behavioral Interview Questions", "difficulty_all": true }
+    { "id": "cloud", "name": "Cloud Computing (AWS/Azure/GCP basics)", "difficulty_all": true }
   ]
 }
