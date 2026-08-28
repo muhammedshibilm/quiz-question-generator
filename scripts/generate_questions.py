@@ -2,8 +2,9 @@ import os
 import sys
 import json
 import time
+import random
 import hashlib
-from datetime import date, datetime, timedelta
+from datetime import date, datetime, timedelta, timezone
 from pathlib import Path
 
 import requests
@@ -22,6 +23,14 @@ QUESTIONS_PER_BATCH = 10
 MAX_COMBOS_PER_RUN = 10  # topic + difficulty pairs per run (well under free daily quota)
 DELAY_BETWEEN_CALLS_SEC = 5
 RETENTION_DAYS = 60
+
+# Retry/backoff settings for transient API failures (503 overload, 429 rate limit,
+# and truncated/invalid JSON responses).
+MAX_ATTEMPTS = 4
+BASE_BACKOFF_SEC = 5
+
+# Generous headroom so 10 questions + explanations don't get cut off mid-JSON.
+MAX_OUTPUT_TOKENS = 8192
 
 # Simple in-memory cache so we don't scrape Wikipedia twice for the
 # same topic within a single run.
@@ -52,13 +61,13 @@ def scrape_topic_context(topic_name: str) -> str:
     return context
 
 
-def build_prompt(topic_name: str, difficulty: str, context: str) -> str:
+def build_prompt(topic_name: str, difficulty: str, context: str, num_questions: int) -> str:
     context_block = (
         f'\nHere is some factual background you can draw on for accuracy:\n"""{context}"""\n'
         if context
         else ""
     )
-    return f"""Generate {QUESTIONS_PER_BATCH} unique interview-style multiple-choice questions on the topic "{topic_name}".
+    return f"""Generate {num_questions} unique interview-style multiple-choice questions on the topic "{topic_name}".
 {context_block}
 Requirements:
 - Difficulty level: {difficulty}
@@ -67,6 +76,7 @@ Requirements:
 - Questions should be realistic interview questions someone could be asked for a job in this area, not trivia
 - Avoid duplicating extremely common textbook questions where possible; vary phrasing
 - Include a short 1-2 sentence explanation for the correct answer
+- Keep each explanation concise (max ~30 words) so the full response fits comfortably
 
 Respond with ONLY a raw JSON array (no markdown fences, no preamble), where each item has this exact shape:
 {{
@@ -77,36 +87,92 @@ Respond with ONLY a raw JSON array (no markdown fences, no preamble), where each
 }}"""
 
 
-def call_model(prompt: str) -> list:
-    resp = requests.post(
-        ENDPOINT,
-        headers={"Content-Type": "application/json"},
-        params={"key": GEMINI_API_KEY},
-        json={
-            "contents": [{"parts": [{"text": prompt}]}],
-            "generationConfig": {
-                "temperature": 0.8,
-                "maxOutputTokens": 4000,
-                "responseMimeType": "application/json",
-            },
-        },
-        timeout=60,
-    )
-    if not resp.ok:
-        raise RuntimeError(f"Gemini API error {resp.status_code}: {resp.text}")
+class TransientAPIError(Exception):
+    """Raised for errors worth retrying: 429/503 responses, empty/truncated output."""
 
-    data = resp.json()
+
+def _extract_text(data: dict) -> str:
     try:
-        text = data["candidates"][0]["content"]["parts"][0]["text"]
+        candidate = data["candidates"][0]
     except (KeyError, IndexError):
         raise RuntimeError(f"Unexpected Gemini response shape: {data}")
 
+    finish_reason = candidate.get("finishReason")
+    parts = candidate.get("content", {}).get("parts", [])
+    text = "".join(p.get("text", "") for p in parts).strip()
+
+    if not text:
+        raise TransientAPIError(f"Empty response text (finishReason={finish_reason}): {data}")
+
+    if finish_reason == "MAX_TOKENS":
+        # The response was cut off mid-generation - almost certainly invalid JSON.
+        raise TransientAPIError("Response was truncated (hit MAX_TOKENS)")
+
+    return text
+
+
+def _clean_json_text(text: str) -> str:
     cleaned = text.strip()
     if cleaned.startswith("```"):
-        cleaned = cleaned.split("```")[1]
+        # Strip a leading ```json / ``` fence and a trailing ``` fence, if present.
+        parts = cleaned.split("```")
+        cleaned = parts[1] if len(parts) > 1 else cleaned
         if cleaned.startswith("json"):
             cleaned = cleaned[4:]
-    return json.loads(cleaned.strip())
+    return cleaned.strip()
+
+
+def call_model(prompt: str) -> list:
+    last_error = None
+
+    for attempt in range(1, MAX_ATTEMPTS + 1):
+        try:
+            resp = requests.post(
+                ENDPOINT,
+                headers={"Content-Type": "application/json"},
+                params={"key": GEMINI_API_KEY},
+                json={
+                    "contents": [{"parts": [{"text": prompt}]}],
+                    "generationConfig": {
+                        "temperature": 0.8,
+                        "maxOutputTokens": MAX_OUTPUT_TOKENS,
+                        "responseMimeType": "application/json",
+                    },
+                },
+                timeout=90,
+            )
+
+            if resp.status_code in (429, 503):
+                raise TransientAPIError(f"Gemini API error {resp.status_code}: {resp.text}")
+            if not resp.ok:
+                # Non-transient errors (400, 401, 404, ...) - fail fast, no point retrying.
+                raise RuntimeError(f"Gemini API error {resp.status_code}: {resp.text}")
+
+            data = resp.json()
+            text = _extract_text(data)
+            cleaned = _clean_json_text(text)
+
+            try:
+                return json.loads(cleaned)
+            except json.JSONDecodeError as e:
+                raise TransientAPIError(f"Invalid JSON from model: {e}")
+
+        except TransientAPIError as e:
+            last_error = e
+            if attempt == MAX_ATTEMPTS:
+                break
+            backoff = BASE_BACKOFF_SEC * (2 ** (attempt - 1)) + random.uniform(0, 2)
+            print(f"  Attempt {attempt}/{MAX_ATTEMPTS} failed ({e}); retrying in {backoff:.1f}s")
+            time.sleep(backoff)
+        except requests.RequestException as e:
+            last_error = e
+            if attempt == MAX_ATTEMPTS:
+                break
+            backoff = BASE_BACKOFF_SEC * (2 ** (attempt - 1)) + random.uniform(0, 2)
+            print(f"  Network error on attempt {attempt}/{MAX_ATTEMPTS} ({e}); retrying in {backoff:.1f}s")
+            time.sleep(backoff)
+
+    raise RuntimeError(f"Gave up after {MAX_ATTEMPTS} attempts: {last_error}")
 
 
 def make_id(topic_id: str, difficulty: str, question_text: str) -> str:
@@ -131,12 +197,13 @@ def main():
 
     today_str = date.today().isoformat()
     all_questions = []
+    failures = []
 
     for topic, difficulty in todays_combos:
         print(f"Generating: {topic['name']} | {difficulty}")
 
         context = scrape_topic_context(topic["name"])
-        prompt = build_prompt(topic["name"], difficulty, context)
+        prompt = build_prompt(topic["name"], difficulty, context, QUESTIONS_PER_BATCH)
 
         try:
             questions = call_model(prompt)
@@ -155,7 +222,9 @@ def main():
                     }
                 )
         except Exception as e:
-            print(f"  Failed for {topic['id']}/{difficulty}: {e}", file=sys.stderr)
+            msg = f"Failed for {topic['id']}/{difficulty}: {e}"
+            print(f"  {msg}", file=sys.stderr)
+            failures.append(msg)
 
         time.sleep(DELAY_BETWEEN_CALLS_SEC)
 
@@ -174,7 +243,7 @@ def main():
             merged.append(q)
 
     output = {
-        "generated_at": datetime.utcnow().isoformat() + "Z",
+        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
         "total_questions": len(merged),
         "questions": merged,
     }
@@ -185,6 +254,16 @@ def main():
 
     print(f"Wrote {len(merged)} total questions to {DATA_PATH}")
 
+    if failures:
+        print(f"\n{len(failures)}/{len(todays_combos)} combo(s) failed after retries:", file=sys.stderr)
+        for f_msg in failures:
+            print(f"  - {f_msg}", file=sys.stderr)
+        # Don't fail the whole CI run over partial generation failures - the questions
+        # that did succeed are still written. Remove this exit(1) suppression if you'd
+        # rather CI go red whenever any combo fails.
+        # sys.exit(1)
+
 
 if __name__ == "__main__":
     main()
+    
