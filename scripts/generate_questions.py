@@ -11,53 +11,43 @@ from pathlib import Path
 import requests
 
 SCRIPT_DIR = Path(__file__).parent
-DATA_PATH = SCRIPT_DIR.parent / "data" / "questions.json"
+DATA_DIR = SCRIPT_DIR.parent / "data"
+QUESTIONS_DIR = DATA_DIR / "questions"
+MANIFEST_PATH = DATA_DIR / "manifest.json"
 TOPICS_PATH = SCRIPT_DIR / "topics.json"
 
-# Get a free key (no credit card) from https://aistudio.google.com/apikey
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL = "gemini-3.6-flash"  # generous free tier: ~250 requests/day
+MODEL = "gemini-3.6-flash"
 ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
 
 DIFFICULTIES = ["easy", "medium", "hard"]
 QUESTIONS_PER_BATCH = 10
-MAX_COMBOS_PER_RUN = 10  # topic + difficulty pairs per run (well under free daily quota)
+MAX_COMBOS_PER_RUN = 10
 DELAY_BETWEEN_CALLS_SEC = 5
 RETENTION_DAYS = 60
 
-# Retry/backoff settings for transient API failures (503 overload, 429 rate limit,
-# and truncated/invalid JSON responses).
+# Once a topic/difficulty has this many questions, stop generating more for it -
+# keeps individual topic files (and total daily API usage) from growing forever.
+MAX_QUESTIONS_PER_COMBO = 60
+
 MAX_ATTEMPTS = 4
 BASE_BACKOFF_SEC = 5
-
-# Generous headroom so 10 questions + explanations don't get cut off mid-JSON.
 MAX_OUTPUT_TOKENS = 8192
 
-# Simple in-memory cache so we don't scrape Wikipedia twice for the
-# same topic within a single run.
 _wiki_cache = {}
 
 
 def scrape_topic_context(topic_name: str) -> str:
-    """
-    Pulls a short factual summary from Wikipedia's public REST API to
-    ground question generation in real facts. Falls back to an empty
-    string if the page isn't found or the request fails - the prompt
-    still works fine without it, just less grounded.
-    """
     if topic_name in _wiki_cache:
         return _wiki_cache[topic_name]
-
     context = ""
     try:
         url = f"https://en.wikipedia.org/api/rest_v1/page/summary/{topic_name.replace(' ', '_')}"
         resp = requests.get(url, timeout=10, headers={"User-Agent": "quiz-app-question-generator"})
         if resp.status_code == 200:
-            data = resp.json()
-            context = data.get("extract", "")
+            context = resp.json().get("extract", "")
     except requests.RequestException as e:
         print(f"  (scrape failed for '{topic_name}': {e})")
-
     _wiki_cache[topic_name] = context
     return context
 
@@ -65,8 +55,7 @@ def scrape_topic_context(topic_name: str) -> str:
 def build_prompt(topic_name: str, difficulty: str, context: str, num_questions: int) -> str:
     context_block = (
         f'\nHere is some factual background you can draw on for accuracy:\n"""{context}"""\n'
-        if context
-        else ""
+        if context else ""
     )
     return f"""Generate {num_questions} unique interview-style multiple-choice questions on the topic "{topic_name}".
 {context_block}
@@ -91,14 +80,11 @@ Respond with ONLY a raw JSON array (no markdown fences, no preamble), where each
 
 
 class TransientAPIError(Exception):
-    """Raised for errors worth retrying: 503 responses, empty/truncated output,
-    and short-lived 429 rate limits."""
+    pass
 
 
 class QuotaExhaustedError(Exception):
-    """Raised when a 429 is a daily/hard quota cap rather than a short burst
-    limit. Retrying this within the same run just wastes remaining quota on
-    other combos, so we fail fast instead."""
+    pass
 
 
 def _extract_text(data: dict) -> str:
@@ -106,17 +92,13 @@ def _extract_text(data: dict) -> str:
         candidate = data["candidates"][0]
     except (KeyError, IndexError):
         raise RuntimeError(f"Unexpected Gemini response shape: {data}")
-
     finish_reason = candidate.get("finishReason")
     parts = candidate.get("content", {}).get("parts", [])
     text = "".join(p.get("text", "") for p in parts).strip()
-
     if not text:
         raise TransientAPIError(f"Empty response text (finishReason={finish_reason}): {data}")
-
     if finish_reason == "MAX_TOKENS":
         raise TransientAPIError("Response was truncated (hit MAX_TOKENS)")
-
     return text
 
 
@@ -132,7 +114,6 @@ def _clean_json_text(text: str) -> str:
 
 def call_model(prompt: str) -> list:
     last_error = None
-
     for attempt in range(1, MAX_ATTEMPTS + 1):
         try:
             resp = requests.post(
@@ -149,10 +130,8 @@ def call_model(prompt: str) -> list:
                 },
                 timeout=90,
             )
-
             if resp.status_code == 429:
-                is_daily_quota = "PerDay" in resp.text
-                if is_daily_quota:
+                if "PerDay" in resp.text:
                     raise QuotaExhaustedError(f"Gemini API error 429 (daily quota): {resp.text}")
                 raise TransientAPIError(f"Gemini API error 429: {resp.text}")
             if resp.status_code == 503:
@@ -163,7 +142,6 @@ def call_model(prompt: str) -> list:
             data = resp.json()
             text = _extract_text(data)
             cleaned = _clean_json_text(text)
-
             try:
                 return json.loads(cleaned)
             except json.JSONDecodeError as e:
@@ -186,7 +164,6 @@ def call_model(prompt: str) -> list:
             backoff = BASE_BACKOFF_SEC * (2 ** (attempt - 1)) + random.uniform(0, 2)
             print(f"  Network error on attempt {attempt}/{MAX_ATTEMPTS} ({e}); retrying in {backoff:.1f}s")
             time.sleep(backoff)
-
     raise RuntimeError(f"Gave up after {MAX_ATTEMPTS} attempts: {last_error}")
 
 
@@ -195,42 +172,38 @@ def make_id(topic_id: str, difficulty: str, question_text: str) -> str:
     return f"{topic_id}-{difficulty}-{h}"
 
 
-def select_todays_combos(topics: list, existing_questions: list) -> list:
-    """
-    Picks which (topic, difficulty) combos to generate today, prioritizing
-    combos with the fewest existing questions so every topic fills in as
-    fast as possible instead of waiting on a fixed calendar rotation.
+def load_topic_file(topic_id: str) -> list:
+    path = QUESTIONS_DIR / f"{topic_id}.json"
+    if not path.exists():
+        return []
+    with open(path) as f:
+        data = json.load(f)
+    return data.get("questions", [])
 
-    Within topics that are equally under-covered, selection is randomized
-    (not alphabetical) so runs don't always favor the same topics in the
-    same order.
-    """
-    counts = defaultdict(int)
-    for q in existing_questions:
-        counts[(q["topic"], q["difficulty"])] += 1
 
+def select_todays_combos(topics: list, counts: dict) -> list:
+    """
+    Picks (topic, difficulty) combos with the fewest existing questions,
+    skipping any combo that's already hit MAX_QUESTIONS_PER_COMBO. Ties are
+    randomized. Round-robins across topics so one run spreads coverage
+    widely instead of exhausting a single topic's three difficulties.
+    """
     topic_totals = {
         topic["id"]: sum(counts[(topic["id"], d)] for d in DIFFICULTIES)
         for topic in topics
     }
 
-    # Order topics least-covered first; shuffle ties so it's not always
-    # alphabetical / the same topic order every run.
     topics_shuffled = topics[:]
     random.shuffle(topics_shuffled)
     topics_sorted = sorted(topics_shuffled, key=lambda t: topic_totals[t["id"]])
 
-    # For each topic, queue its difficulties least-covered first (ties shuffled).
     per_topic_queue = {}
     for topic in topics_sorted:
-        diffs = DIFFICULTIES[:]
+        diffs = [d for d in DIFFICULTIES if counts[(topic["id"], d)] < MAX_QUESTIONS_PER_COMBO]
         random.shuffle(diffs)
         diffs.sort(key=lambda d: counts[(topic["id"], d)])
         per_topic_queue[topic["id"]] = diffs
 
-    # Round-robin across topics (in least-covered-first order) so a single
-    # run spreads across many topics rather than exhausting one topic's
-    # three difficulties before moving to the next.
     selected = []
     topic_cursor = {topic["id"]: 0 for topic in topics_sorted}
     while len(selected) < MAX_COMBOS_PER_RUN:
@@ -245,7 +218,7 @@ def select_todays_combos(topics: list, existing_questions: list) -> list:
                 topic_cursor[topic["id"]] += 1
                 made_progress = True
         if not made_progress:
-            break  # every topic's difficulties are exhausted (shouldn't happen with 3 diffs)
+            break  # every combo across every topic has hit the cap
 
     return selected
 
@@ -256,49 +229,54 @@ def main():
         sys.exit(1)
 
     with open(TOPICS_PATH) as f:
-        topics_config = json.load(f)
-    topics = topics_config["topics"]
+        topics = json.load(f)["topics"]
 
-    # Load existing questions up front so selection can see current coverage.
-    existing = {"generated_at": None, "questions": []}
-    if DATA_PATH.exists():
-        with open(DATA_PATH) as f:
-            existing = json.load(f)
-
+    QUESTIONS_DIR.mkdir(parents=True, exist_ok=True)
     cutoff_str = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
-    kept_existing = [q for q in existing["questions"] if q["date_added"] >= cutoff_str]
 
-    todays_combos = select_todays_combos(topics, kept_existing)
-    print("Today's combos (least-covered first):")
+    # Load current per-topic question sets, apply retention.
+    topic_questions = {}
+    for topic in topics:
+        raw = load_topic_file(topic["id"])
+        topic_questions[topic["id"]] = [q for q in raw if q["date_added"] >= cutoff_str]
+
+    counts = defaultdict(int)
+    for topic_id, qs in topic_questions.items():
+        for q in qs:
+            counts[(topic_id, q["difficulty"])] += 1
+
+    todays_combos = select_todays_combos(topics, counts)
+    print("Today's combos (least-covered first, capped at "
+          f"{MAX_QUESTIONS_PER_COMBO}/combo):")
     for topic, difficulty in todays_combos:
         print(f"  - {topic['id']}/{difficulty}")
 
     today_str = date.today().isoformat()
-    all_questions = []
     failures = []
 
     for topic, difficulty in todays_combos:
         print(f"Generating: {topic['name']} | {difficulty}")
-
         context = scrape_topic_context(topic["name"])
         prompt = build_prompt(topic["name"], difficulty, context, QUESTIONS_PER_BATCH)
 
         try:
             questions = call_model(prompt)
+            existing_ids = {q["id"] for q in topic_questions[topic["id"]]}
             for q in questions:
-                all_questions.append(
-                    {
-                        "id": make_id(topic["id"], difficulty, q["question"]),
-                        "topic": topic["id"],
-                        "topic_name": topic["name"],
-                        "difficulty": difficulty,
-                        "question": q["question"],
-                        "options": q["options"],
-                        "correct_index": q["correct_index"],
-                        "explanation": q.get("explanation", ""),
-                        "date_added": today_str,
-                    }
-                )
+                new_q = {
+                    "id": make_id(topic["id"], difficulty, q["question"]),
+                    "topic": topic["id"],
+                    "topic_name": topic["name"],
+                    "difficulty": difficulty,
+                    "question": q["question"],
+                    "options": q["options"],
+                    "correct_index": q["correct_index"],
+                    "explanation": q.get("explanation", ""),
+                    "date_added": today_str,
+                }
+                if new_q["id"] not in existing_ids:
+                    topic_questions[topic["id"]].append(new_q)
+                    existing_ids.add(new_q["id"])
         except Exception as e:
             msg = f"Failed for {topic['id']}/{difficulty}: {e}"
             print(f"  {msg}", file=sys.stderr)
@@ -306,33 +284,38 @@ def main():
 
         time.sleep(DELAY_BETWEEN_CALLS_SEC)
 
-    # Merge with existing questions (dedupe by id), keep last RETENTION_DAYS days only
-    existing_ids = {q["id"] for q in kept_existing}
-    merged = kept_existing[:]
-    for q in all_questions:
-        if q["id"] not in existing_ids:
-            merged.append(q)
-            existing_ids.add(q["id"])
+    # Write one file per topic + a lightweight manifest.
+    now_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+    manifest_topics = []
 
-    # Also drop any topic ids no longer present in topics.json (e.g. HR was removed) -
-    # keeps the question bank from carrying dead weight for topics you took out.
     valid_topic_ids = {t["id"] for t in topics}
-    removed_count = len([q for q in merged if q["topic"] not in valid_topic_ids])
-    merged = [q for q in merged if q["topic"] in valid_topic_ids]
-    if removed_count:
-        print(f"Removed {removed_count} question(s) belonging to topics no longer in topics.json")
+    # Remove files for topics no longer present in topics.json.
+    for existing_file in QUESTIONS_DIR.glob("*.json"):
+        if existing_file.stem not in valid_topic_ids:
+            existing_file.unlink()
+            print(f"Removed stale topic file: {existing_file.name}")
 
-    output = {
-        "generated_at": datetime.now(timezone.utc).isoformat().replace("+00:00", "Z"),
-        "total_questions": len(merged),
-        "questions": merged,
-    }
+    for topic in topics:
+        qs = topic_questions[topic["id"]]
+        with open(QUESTIONS_DIR / f"{topic['id']}.json", "w") as f:
+            json.dump(
+                {"topic": topic["id"], "topic_name": topic["name"], "generated_at": now_iso, "questions": qs},
+                f, indent=2, ensure_ascii=False,
+            )
 
-    DATA_PATH.parent.mkdir(parents=True, exist_ok=True)
-    with open(DATA_PATH, "w") as f:
-        json.dump(output, f, indent=2, ensure_ascii=False)
+        diff_counts = {d: len([q for q in qs if q["difficulty"] == d]) for d in DIFFICULTIES}
+        manifest_topics.append({
+            "id": topic["id"],
+            "name": topic["name"],
+            "counts": diff_counts,
+            "total": len(qs),
+        })
 
-    print(f"Wrote {len(merged)} total questions to {DATA_PATH}")
+    with open(MANIFEST_PATH, "w") as f:
+        json.dump({"generated_at": now_iso, "topics": manifest_topics}, f, indent=2, ensure_ascii=False)
+
+    total = sum(t["total"] for t in manifest_topics)
+    print(f"Wrote {len(topics)} topic files ({total} total questions) and manifest.json")
 
     if failures:
         print(f"\n{len(failures)}/{len(todays_combos)} combo(s) failed after retries:", file=sys.stderr)
@@ -342,4 +325,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-    
