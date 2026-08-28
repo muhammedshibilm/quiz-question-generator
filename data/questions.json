@@ -1,5 +1,326 @@
 {
-  "generated_at": "2026-08-28T03:56:11.132354Z",
-  "total_questions": 0,
-  "questions": []
+  "generated_at": "2026-08-28T04:04:38.456649Z",
+  "total_questions": 20,
+  "questions": [
+    {
+      "id": "networking-easy-64e128e7bbe6",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "When designing an application where guaranteed delivery and packet ordering are critical, which transport layer protocol should be selected?",
+      "options": [
+        "User Datagram Protocol (UDP)",
+        "Transmission Control Protocol (TCP)",
+        "Internet Control Message Protocol (ICMP)",
+        "Address Resolution Protocol (ARP)"
+      ],
+      "correct_index": 1,
+      "explanation": "TCP is a connection-oriented protocol that ensures data integrity through acknowledgments, sequence numbers, and automatic retransmissions of lost packets.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-29ae9c287243",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "A workstation can ping external servers by their IP address but fails to load web pages using their domain names. Which network service is most likely misconfigured or unreachable?",
+      "options": [
+        "Dynamic Host Configuration Protocol (DHCP)",
+        "Domain Name System (DNS)",
+        "Network Address Translation (NAT)",
+        "Address Resolution Protocol (ARP)"
+      ],
+      "correct_index": 1,
+      "explanation": "DNS is responsible for resolving domain names into IP addresses. If IP connectivity works but domain lookup fails, the DNS configuration is likely the root cause.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-faa1e8e17fcf",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "How does a computer on a local network discover the hardware MAC address of a target host when it only knows the host's IPv4 address?",
+      "options": [
+        "By sending a unicast query to the local DNS server",
+        "By broadcasting an ARP request to all devices on the subnet",
+        "By sending an ICMP Echo Request directly to the target host",
+        "By requesting the address mapping from the default gateway via DHCP"
+      ],
+      "correct_index": 1,
+      "explanation": "Address Resolution Protocol (ARP) sends a broadcast frame asking 'Who has IP X.X.X.X?', allowing the target host to reply with its MAC address.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-0eb6980b970a",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which well-known TCP port does encrypted HTTPS web traffic use by default to establish secure communications?",
+      "options": [
+        "Port 80",
+        "Port 22",
+        "Port 443",
+        "Port 8080"
+      ],
+      "correct_index": 2,
+      "explanation": "Standard unencrypted HTTP traffic operates on port 80, whereas secure HTTPS traffic protected by TLS/SSL defaults to TCP port 443.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-2aa3551ac5bc",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which of the following IP addresses belongs to a non-routable private range as defined by RFC 1918?",
+      "options": [
+        "8.8.8.8",
+        "192.168.1.45",
+        "1.1.1.1",
+        "203.0.113.10"
+      ],
+      "correct_index": 1,
+      "explanation": "RFC 1918 sets aside private IPv4 address blocks, including 192.168.0.0/16, which cannot be routed directly across the public Internet.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-8b21cd69ec89",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "At which OSI model layer does a standard network switch operate to make frame forwarding decisions based on physical addresses?",
+      "options": [
+        "Layer 1 - Physical Layer",
+        "Layer 2 - Data Link Layer",
+        "Layer 3 - Network Layer",
+        "Layer 4 - Transport Layer"
+      ],
+      "correct_index": 1,
+      "explanation": "Traditional Layer 2 switches operate at the Data Link layer, using MAC addresses recorded in their CAM table to forward frames to specific ports.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-0d40c443d9a3",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which network protocol is directly used by the standard `ping` command to test reachability and round-trip time to a remote host?",
+      "options": [
+        "TCP",
+        "UDP",
+        "ICMP",
+        "IGMP"
+      ],
+      "correct_index": 2,
+      "explanation": "The `ping` diagnostic tool generates ICMP Echo Request messages and waits for corresponding ICMP Echo Reply messages to verify host availability.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-a3e6b882678c",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "What is the primary function of Dynamic Host Configuration Protocol (DHCP) in a network environment?",
+      "options": [
+        "Translating local private IP addresses to a single public IP address",
+        "Automating the assignment of IP addresses and network settings to client devices",
+        "Routing packets between different subnets and VLANs",
+        "Mapping dynamic domain names to static external IP addresses"
+      ],
+      "correct_index": 1,
+      "explanation": "DHCP dynamically manages network configuration parameters such as IP addresses, subnet masks, default gateways, and DNS servers for connecting endpoints.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-9cb8d9ccf042",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "What is the primary operational advantage of using a modern network switch instead of an legacy network hub?",
+      "options": [
+        "A switch combines all connected ports into one single collision domain.",
+        "A switch isolates each port into its own dedicated collision domain.",
+        "A switch eliminates the need for Data Link layer hardware addresses.",
+        "A switch automatically encrypts all traffic passing through its ports."
+      ],
+      "correct_index": 1,
+      "explanation": "Unlike hubs which broadcast all signals across a shared collision domain, switches segment traffic so each individual port functions as its own collision domain.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-76fef7220b29",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Why is Network Address Translation (NAT) widely implemented on border routers in enterprise and home networks?",
+      "options": [
+        "To encrypt network traffic before transmitting it over public infrastructure",
+        "To permit multiple devices with private IP addresses to share a public IP address",
+        "To inspect deep packet payloads for malicious software signatures",
+        "To translate IPv6 routing tables automatically into IPv4 format"
+      ],
+      "correct_index": 1,
+      "explanation": "NAT allows multiple hosts on an internal private network to share one (or a few) public IP addresses, conserving public IPv4 space and adding basic perimeter isolation.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-79ce1fd66ed2",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "In an operating system architecture, what is the primary responsibility of the kernel?",
+      "options": [
+        "Executing high-level web applications",
+        "Managing hardware resources and serving as an interface between software and hardware",
+        "Compiling user code into machine instructions",
+        "Providing a graphical user interface for end users"
+      ],
+      "correct_index": 1,
+      "explanation": "The kernel is the core component of an operating system responsible for managing hardware resources (such as CPU, memory, and devices) and facilitating interaction between hardware and software.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-0d9d6619d377",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "When comparing processes and threads in an OS, how do they typically handle memory space?",
+      "options": [
+        "Threads under the same process share the same memory address space, while processes have isolated address spaces.",
+        "Processes share all memory, whereas threads maintain completely isolated memory blocks.",
+        "Both threads and processes share the exact same memory space across the entire system.",
+        "Neither processes nor threads use virtual memory address spaces."
+      ],
+      "correct_index": 0,
+      "explanation": "Threads created within the same process share that process's address space and resources, whereas each process is assigned an isolated memory address space by the OS.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-dfa05c32f954",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Which mechanism does a user-space application rely on to safely request privileges or services, such as file system operations, from the OS kernel?",
+      "options": [
+        "System calls",
+        "Direct memory access (DMA) bypass",
+        "Global variables",
+        "Compiler optimizations"
+      ],
+      "correct_index": 0,
+      "explanation": "System calls provide a controlled interface for user-space applications to transition to kernel mode and request hardware or OS-level services.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-83a43cd083b7",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What distinguishes a preemptive CPU scheduling algorithm from a non-preemptive one?",
+      "options": [
+        "Preemptive algorithms require a multi-core processor to operate.",
+        "Preemptive scheduling can interrupt a currently running process to assign the CPU to another process.",
+        "Non-preemptive scheduling gives equal CPU time slices to all processes simultaneously.",
+        "Preemptive scheduling never relies on timer interrupts."
+      ],
+      "correct_index": 1,
+      "explanation": "In preemptive scheduling, the OS can pause (preempt) an actively running process to allocate CPU time to another task, whereas non-preemptive scheduling lets a process run until it yields or terminates.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-68ec248cb338",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is a primary practical benefit of implementing virtual memory in a modern operating system?",
+      "options": [
+        "It increases the physical clock speed of the motherboard memory modules.",
+        "It allows programs to address more memory than is physically installed while ensuring process memory isolation.",
+        "It completely eliminates the need for physical RAM in standard computers.",
+        "It speeds up network data transmission rates automatically."
+      ],
+      "correct_index": 1,
+      "explanation": "Virtual memory allows applications to use a contiguous address space that exceeds physical RAM while keeping memory isolated across different processes.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-fe48d9b09a43",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "During a process context switch, what action must the OS take to allow a paused process to resume execution correctly later?",
+      "options": [
+        "Recompile the source code of the paused process.",
+        "Save the current execution state (such as registers and program counter) of the running process and restore the state of the next process.",
+        "Clear all RAM contents to prevent memory leaks.",
+        "Shut down device drivers associated with the previous task."
+      ],
+      "correct_index": 1,
+      "explanation": "Context switching involves saving the execution state—including processor registers and the program counter—of the active process so it can be reloaded and continued at a later time.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-88d9b004898a",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "In operating systems, what state is a system in when it spends significantly more time swapping pages in and out of main memory than executing actual work?",
+      "options": [
+        "Deadlock",
+        "Thrashing",
+        "Starvation",
+        "Fragmentation"
+      ],
+      "correct_index": 1,
+      "explanation": "Thrashing occurs when frequent page faults force the operating system to constantly swap memory pages between RAM and secondary storage, severely degrading system performance.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-c3b673b4d246",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Which condition describes a situation where a process holds at least one resource while waiting to acquire additional resources held by other processes?",
+      "options": [
+        "No preemption",
+        "Mutual exclusion",
+        "Hold and wait",
+        "Circular wait"
+      ],
+      "correct_index": 2,
+      "explanation": "The 'Hold and wait' condition is one of Coffman's four deadlock conditions, occurring when a process retains its allocated resources while waiting for other locked resources to become available.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-9021bf29034e",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "How does an operating system typically handle a hardware device (like a keyboard or network card) that requires immediate CPU attention?",
+      "options": [
+        "By running a continuous user-space loop to poll the device status",
+        "By responding to a hardware interrupt triggered by the device to pause current work and run an interrupt service routine",
+        "By rebooting the kernel to refresh device memory",
+        "By delegating the device interaction to the graphics card"
+      ],
+      "correct_index": 1,
+      "explanation": "Hardware devices trigger interrupts to signal events to the CPU, prompting the OS to temporarily interrupt its current execution flow to handle the event with an Interrupt Service Routine.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-61fb2aa872e1",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "In Unix-like file systems, what key role does an inode (index node) play?",
+      "options": [
+        "It acts as a network packet routing table for local files.",
+        "It stores metadata about a file, such as permissions, file size, ownership, and pointers to data blocks.",
+        "It holds the user's plain-text login passwords for access control.",
+        "It caches the graphical desktop icon for that file."
+      ],
+      "correct_index": 1,
+      "explanation": "An inode is a data structure storing essential metadata about a file—including permissions, ownership, size, and pointers to physical disk blocks—excluding its file name.",
+      "date_added": "2026-08-28"
+    }
+  ]
 }
