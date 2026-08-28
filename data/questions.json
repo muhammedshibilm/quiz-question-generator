@@ -1,0 +1,1446 @@
+{
+  "generated_at": "2026-08-28T11:16:36.842044Z",
+  "total_questions": 90,
+  "questions": [
+    {
+      "id": "react-native-medium-00b4d57103dc",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "How does the New Architecture (JSI) improve communication between JavaScript and native code compared to the legacy React Native bridge?",
+      "options": [
+        "It compresses JSON messages sent asynchronously over web sockets.",
+        "It allows JavaScript to directly hold references to C++ Host Objects, enabling synchronous invocation.",
+        "It renders all UI components on a background worker thread via WebGL.",
+        "It compiles JavaScript code into Swift and Kotlin at build time."
+      ],
+      "correct_index": 1,
+      "explanation": "JSI allows JavaScript to hold direct references to C++ native objects, eliminating the asynchronous JSON serialization overhead of the old bridge.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-3101f9bc6dea",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "If an animation stutters during heavy JS thread operations, which strategy ensures it runs smoothly at 60 FPS?",
+      "options": [
+        "Wrap the heavy JS computation inside a setImmediate block.",
+        "Use React Native Reanimated or useNativeDriver to execute animations on the UI thread.",
+        "Increase the maxThreads parameter in app.json configuration.",
+        "Trigger a forceUpdate on the parent component before starting the animation."
+      ],
+      "correct_index": 1,
+      "explanation": "Offloading animations to the native UI thread prevents frame drops caused by JavaScript thread blockages.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-d02f29da2981",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "In React Navigation, what is the key advantage of using @react-navigation/native-stack over @react-navigation/stack?",
+      "options": [
+        "It uses JavaScript animations, making it customizable across all web browsers.",
+        "It uses platform-native screen primitives (UINavigationController/Fragment) for superior performance.",
+        "It supports iOS devices exclusively, optimizing layout rendering for iPhones.",
+        "It eliminates the need to configure screen headers completely."
+      ],
+      "correct_index": 1,
+      "explanation": "Native Stack leverages native platform navigation controllers, yielding better performance and native transition behavior than JS-driven screen stacks.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-79d8aa543e7f",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "How does the default Flexbox behavior in React Native differ from Flexbox on the web?",
+      "options": [
+        "flexDirection defaults to 'column' in React Native, whereas it defaults to 'row' on the web.",
+        "alignItems defaults to 'center' in React Native, whereas it defaults to 'flex-start' on the web.",
+        "React Native does not support the justifyContent property.",
+        "Flex values in React Native represent static pixel widths rather than ratios."
+      ],
+      "correct_index": 0,
+      "explanation": "React Native sets flexDirection to 'column' by default to cater to vertical mobile screens, unlike web CSS which defaults to 'row'.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-5b00466ad2d7",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "Which prop should be passed to a FlatList to optimize scroll performance when all items have a fixed, predetermined height?",
+      "options": [
+        "keyExtractor",
+        "getItemLayout",
+        "initialNumToRender",
+        "removeClippedSubviews"
+      ],
+      "correct_index": 1,
+      "explanation": "getItemLayout allows FlatList to skip dynamic measurement calculations for layout items, drastically speeding up rendering and scrolling.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-c2ba95eb3210",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "When creating a legacy iOS Native Module for React Native, which Objective-C macro exports a method to the JavaScript layer?",
+      "options": [
+        "RCT_EXPORT_MODULE",
+        "RCT_EXPORT_METHOD",
+        "RCT_REGISTER_CLASS",
+        "RCT_BRIDGE_BIND"
+      ],
+      "correct_index": 1,
+      "explanation": "RCT_EXPORT_METHOD explicitly registers a native method so it can be called asynchronously from JavaScript.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-230f80c8df85",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "What is a common cause of memory leaks in React Native when navigating away from a screen?",
+      "options": [
+        "Defining static styles using StyleSheet.create outside the component file.",
+        "Unsubscribed event listeners or uncancelled async API calls updating state after unmount.",
+        "Importing local image assets using require() instead of explicit URIs.",
+        "Using functional components instead of class components as screen wrappers."
+      ],
+      "correct_index": 1,
+      "explanation": "Active event listeners or pending promises that attempt to set state on unmounted components cause memory leaks and runtime warnings.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-894f79bd2ba4",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "Which core React Native API is used to handle incoming deep links and external app URLs?",
+      "options": [
+        "AppState",
+        "Linking",
+        "DeepLinkManager",
+        "NativeRouter"
+      ],
+      "correct_index": 1,
+      "explanation": "The Linking module provides a unified API to handle incoming deep links and trigger external applications.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-07998890f5f5",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "Why is third-party image caching (like react-native-fast-image) often preferred over the built-in <Image> component in image-heavy apps?",
+      "options": [
+        "The default Image component cannot display PNG format files.",
+        "It offers aggressive disk and memory caching with priority loading, preventing flickering in long lists.",
+        "The default Image component executes all graphic operations synchronously on the JS thread.",
+        "FastImage converts raster images into vector formats at runtime automatically."
+      ],
+      "correct_index": 1,
+      "explanation": "Advanced caching libraries handle memory/disk persistence and image prioritization better than the default Image component.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "react-native-medium-eea1db50b817",
+      "topic": "react-native",
+      "topic_name": "React Native & Mobile Development",
+      "difficulty": "medium",
+      "question": "How does the Metro bundler handle static image assets imported via require('./icon.png')?",
+      "options": [
+        "It encodes all static images into Base64 strings embedded directly in the bundle file.",
+        "It analyzes asset metadata and generates density-specific files (@2x, @3x) for native platform packaging.",
+        "It uploads local images to a remote Metro CDN server during compilation.",
+        "It automatically converts all PNG and JPEG files to WebP format."
+      ],
+      "correct_index": 1,
+      "explanation": "Metro inspects static images, extracts dimensions, and packages appropriate scale variants (@1x, @2x, @3x) directly into the native app build.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-47ba897047c8",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Under the Cloud Shared Responsibility Model, which security task is typically the customer's responsibility in an Infrastructure as a Service (IaaS) offering?",
+      "options": [
+        "Physical data center security",
+        "Hypervisor patch management",
+        "Guest operating system patching",
+        "Core network infrastructure maintenance"
+      ],
+      "correct_index": 2,
+      "explanation": "In IaaS, the provider secures the physical infrastructure and hypervisor, while the customer manages the guest OS, applications, and network configuration.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-628424e26ea6",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Which cloud service model allows developers to deploy code without managing the underlying operating system or server hardware?",
+      "options": [
+        "Infrastructure as a Service (IaaS)",
+        "Platform as a Service (PaaS)",
+        "Software as a Service (SaaS)",
+        "On-Premises Infrastructure"
+      ],
+      "correct_index": 1,
+      "explanation": "PaaS provides a managed environment for application development and deployment, removing the need to manage OS patches and server hardware.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-488e21522652",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "What cloud computing characteristic describes the ability to automatically add or remove compute capacity in response to real-time workload changes?",
+      "options": [
+        "Fault Tolerance",
+        "High Availability",
+        "Elasticity",
+        "Redundancy"
+      ],
+      "correct_index": 2,
+      "explanation": "Elasticity is the dynamic provisioning and de-provisioning of cloud resources to match current demand, optimizing cost and performance.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-ac27f8219b75",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "What service model do Amazon EC2, Azure Virtual Machines, and Google Compute Engine represent?",
+      "options": [
+        "Platform as a Service (PaaS)",
+        "Infrastructure as a Service (IaaS)",
+        "Software as a Service (SaaS)",
+        "Database as a Service (DBaaS)"
+      ],
+      "correct_index": 1,
+      "explanation": "EC2, Azure VMs, and Compute Engine provide raw virtual servers (IaaS), allowing full control over the operating system and installed applications.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-1c6f8cf5787a",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Amazon S3, Azure Blob Storage, and Google Cloud Storage are examples of which type of cloud storage?",
+      "options": [
+        "Block Storage",
+        "File Storage",
+        "Object Storage",
+        "Relational Database Storage"
+      ],
+      "correct_index": 2,
+      "explanation": "S3, Blob Storage, and Cloud Storage use object storage architecture, designed for storing unstructured data like media and backups via flat namespaces.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-bbda49d1e1cc",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "In major cloud platforms, what is an 'Availability Zone' (AZ)?",
+      "options": [
+        "A logical grouping of users in an identity management system",
+        "One or more discrete data centers with independent power, cooling, and networking",
+        "A global content delivery network node location",
+        "A single rack inside a shared server room"
+      ],
+      "correct_index": 1,
+      "explanation": "An Availability Zone consists of isolated data centers within a region, providing high availability and fault tolerance against local disasters.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-bac6aabf5a7d",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Which cloud component isolates virtual network resources from each other to provide a private, dedicated network environment?",
+      "options": [
+        "Content Delivery Network (CDN)",
+        "Virtual Private Cloud (VPC)",
+        "Domain Name System (DNS)",
+        "Load Balancer"
+      ],
+      "correct_index": 1,
+      "explanation": "A Virtual Private Cloud (VPC/VNet) isolates a customer's network resources within a cloud vendor's infrastructure for enhanced security and control.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-9c7c797b1c97",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "What key operational feature distinguishes serverless compute services (such as AWS Lambda, Azure Functions, or GCP Cloud Functions) from traditional virtual machines?",
+      "options": [
+        "They require dedicated physical hardware",
+        "You only pay for compute time consumed while code executes",
+        "They can only run continuous 24/7 background processes",
+        "You must manually configure and patch the operating system"
+      ],
+      "correct_index": 1,
+      "explanation": "Serverless functions automatically scale on-demand, charging users only for the exact duration and resources consumed during execution.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-6e1a32ada864",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Which of the following describes a key benefit of using a managed database service like Amazon RDS or Azure SQL Database over self-hosting on a virtual machine?",
+      "options": [
+        "Guaranteed zero network latency",
+        "Automated backups, patching, and high availability management",
+        "Ability to install custom operating system kernels",
+        "Complete elimination of database licensing fees"
+      ],
+      "correct_index": 1,
+      "explanation": "Managed database services offload routine administrative tasks like OS/DB patching, automated backups, and failover management to the cloud provider.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-a2e4958aa191",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "What is the primary purpose of Identity and Access Management (IAM) across cloud providers?",
+      "options": [
+        "To route internet traffic to the nearest geographic server",
+        "To securely control authentication and authorization for cloud resources",
+        "To automatically scale virtual machines based on CPU usage",
+        "To encrypt stored database backups at rest"
+      ],
+      "correct_index": 1,
+      "explanation": "IAM enables administrators to define who (authentication) can perform what actions on which resources (authorization) within a cloud account.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-76d5d79e77ce",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "In a distributed caching system, why is consistent hashing preferred over standard modulo hashing (hash(key) % N) when scaling the cluster?",
+      "options": [
+        "It guarantees perfectly equal memory distribution across all nodes.",
+        "It minimizes the number of keys remapped when nodes are added or removed.",
+        "It eliminates the need for secondary data replication across nodes.",
+        "It reduces the cryptographic complexity of the hashing function."
+      ],
+      "correct_index": 1,
+      "explanation": "Consistent hashing re-allocates only k/n keys on average when scaling, minimizing cache misses during cluster resizing compared to standard modulo hashing.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-f7b0b5a37ce4",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "Which caching strategy writes data synchronously to both the cache and the underlying database before acknowledging completion to the client?",
+      "options": [
+        "Write-back",
+        "Write-through",
+        "Cache-aside",
+        "Write-around"
+      ],
+      "correct_index": 1,
+      "explanation": "Write-through caching updates both the cache and database synchronously, ensuring strict data consistency at the cost of higher write latency.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-48af2c11d350",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "Which rate-limiting algorithm allows short bursts of traffic above the average threshold while maintaining a steady processing rate over time?",
+      "options": [
+        "Fixed Window Counter",
+        "Leaky Bucket",
+        "Token Bucket",
+        "Sliding Window Log"
+      ],
+      "correct_index": 2,
+      "explanation": "Token Bucket allows traffic bursts up to the max token capacity while steadily replenishing tokens at a fixed rate.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-fe58c358643e",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "What primary problem does horizontal database sharding solve that read-replication alone cannot address?",
+      "options": [
+        "High read request volume",
+        "High write throughput and datasets exceeding a single node's storage capacity",
+        "Ensuring regional disaster recovery and zero downtime",
+        "Eliminating the need for database indexing"
+      ],
+      "correct_index": 1,
+      "explanation": "Sharding partitions data across multiple machines, scaling both write throughput and storage capacity beyond the limits of a single hardware node.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-9ceeec9979eb",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "Why is consumer idempotency critical when building an event-driven system using message queues like Kafka or RabbitMQ?",
+      "options": [
+        "To enforce strict sequential ordering of incoming network packets",
+        "To ensure duplicate messages from at-least-once delivery do not cause invalid system states",
+        "To automatically compress large payloads before processing",
+        "To prevent deadlock conditions between concurrent queue producers"
+      ],
+      "correct_index": 1,
+      "explanation": "Because message queues often guarantee at-least-once delivery, idempotent consumers ensure processing duplicate messages repeatedly yields the exact same end state.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-b3a83132992b",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "According to the CAP theorem, what fundamental trade-off must a distributed system make in the presence of a network partition?",
+      "options": [
+        "Choose between Latency and Durability",
+        "Choose between Consistency and Availability",
+        "Choose between Security and Scalability",
+        "Choose between Throughput and Encryption"
+      ],
+      "correct_index": 1,
+      "explanation": "When network partitions occur, distributed systems must either return stale/error data (sacrificing consistency) or reject requests (sacrificing availability).",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-2c8d1fe725c2",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "In a microservices architecture, which responsibility is typically handled by an API Gateway rather than individual backend services?",
+      "options": [
+        "Executing domain-specific business logic",
+        "Centralized request routing, rate limiting, and authentication",
+        "Managing relational database schema migrations",
+        "Performing internal memory garbage collection"
+      ],
+      "correct_index": 1,
+      "explanation": "An API Gateway acts as a reverse proxy, centralizing cross-cutting entry concerns like authentication, SSL termination, rate limiting, and request routing.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-2499a5b8c3a1",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "What is the key functional difference between a Layer 4 and a Layer 7 load balancer?",
+      "options": [
+        "Layer 4 reads HTTP headers, while Layer 7 only inspects IP addresses.",
+        "Layer 4 routes based on network/transport protocols; Layer 7 routes based on application layer content.",
+        "Layer 4 handles SSL termination, whereas Layer 7 cannot inspect encrypted traffic.",
+        "Layer 4 operates slower than Layer 7 due to deep packet inspection."
+      ],
+      "correct_index": 1,
+      "explanation": "Layer 4 balancers route using IP and port details, while Layer 7 balancers inspect application data like URLs, HTTP headers, and cookies.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-c852bd731430",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "Which database transaction isolation level prevents 'Non-Repeatable Reads' but may still permit 'Phantom Reads' depending on the database engine?",
+      "options": [
+        "Read Uncommitted",
+        "Read Committed",
+        "Repeatable Read",
+        "Serializable"
+      ],
+      "correct_index": 2,
+      "explanation": "Repeatable Read locks read rows to ensure identical re-reads in the same transaction, though new matching rows (phantoms) inserted by others might still appear.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "system-design-medium-35cd5c521b60",
+      "topic": "system-design",
+      "topic_name": "System Design",
+      "difficulty": "medium",
+      "question": "When designing a real-time system that requires simple, unidirectional server-to-client updates over standard HTTP, which technology is best suited?",
+      "options": [
+        "WebSockets",
+        "Server-Sent Events (SSE)",
+        "Short Polling",
+        "gRPC Bidirectional Streaming"
+      ],
+      "correct_index": 1,
+      "explanation": "Server-Sent Events (SSE) provide a lightweight, native HTTP-based standard for streaming real-time data unidirectionally from server to client with minimal overhead.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-53c1f6619a2e",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Which of the following best describes the core function of an operating system?",
+      "options": [
+        "Managing hardware resources and facilitating execution of application programs",
+        "Translating high-level programming code directly into machine language",
+        "Providing a secure firewall against incoming network attacks",
+        "Compiling software applications for faster hardware processing"
+      ],
+      "correct_index": 0,
+      "explanation": "An operating system acts as an intermediary between user applications and computer hardware, managing hardware resources efficiently.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-54acfad63b43",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is the primary purpose of virtual memory in a modern operating system?",
+      "options": [
+        "To permanently store user files on a solid-state drive",
+        "To allow execution of processes that exceed physical RAM capacity",
+        "To increase the physical clock speed of the central processing unit",
+        "To protect the system against malware infections"
+      ],
+      "correct_index": 1,
+      "explanation": "Virtual memory extends physical RAM using disk space, allowing programs larger than available physical memory to run.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-6b2460a25402",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "How does a thread differ from a process in an operating system environment?",
+      "options": [
+        "Threads have isolated address spaces, whereas processes share memory.",
+        "A process can contain multiple threads that share its address space.",
+        "Threads cannot be scheduled independently by the operating system kernel.",
+        "Processes are lightweight execution units compared to threads."
+      ],
+      "correct_index": 1,
+      "explanation": "A process is an independent execution unit with its own memory, while threads exist within a process and share its address space.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-d13ec96a6b23",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Which CPU scheduling algorithm assigns a fixed time quantum to each process in a cyclic order?",
+      "options": [
+        "First-Come, First-Served (FCFS)",
+        "Shortest Job First (SJF)",
+        "Round Robin (RR)",
+        "Priority Scheduling"
+      ],
+      "correct_index": 2,
+      "explanation": "Round Robin assigns a fixed time quantum per process in a circular queue, ensuring fair CPU time sharing.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-b1d08dd4464b",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Which of the following is NOT one of the necessary conditions for a deadlock to occur?",
+      "options": [
+        "Mutual Exclusion",
+        "Hold and Wait",
+        "Preemption",
+        "Circular Wait"
+      ],
+      "correct_index": 2,
+      "explanation": "Deadlocks require non-preemption, meaning resources cannot be forcibly taken. Allowing preemption prevents deadlocks.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-5d8e3214b882",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What occurs during a CPU context switch?",
+      "options": [
+        "The OS restarts the CPU to clear hardware register values.",
+        "The state of the running process is saved so another process can execute.",
+        "The system translates virtual memory addresses directly into disk sectors.",
+        "The compiler optimizes source code before execution resumes."
+      ],
+      "correct_index": 1,
+      "explanation": "Context switching saves the state of an active process and restores the state of another process to resume execution.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-25778c05a8a4",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is the primary role of a system call in an operating system?",
+      "options": [
+        "To allow user-level applications to request services from the kernel",
+        "To convert source code into an executable binary file",
+        "To synchronize network traffic between client and server",
+        "To clear temporary storage caches during background execution"
+      ],
+      "correct_index": 0,
+      "explanation": "System calls provide a secure interface for user programs to request privileged hardware and kernel operations.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-837d6da4414f",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is 'thrashing' in the context of operating system memory management?",
+      "options": [
+        "Excessive CPU heating caused by endless computation loops",
+        "A state where the OS spends more time swapping pages than executing processes",
+        "Overwriting active memory addresses with corrupt data",
+        "Rapid fragmentation of hard drive partitions during file deletion"
+      ],
+      "correct_index": 1,
+      "explanation": "Thrashing occurs when frequent page faults cause the OS to spend more time swapping memory pages than executing processes.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-63501461b7a9",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Why do modern operating systems separate execution into User Mode and Kernel Mode?",
+      "options": [
+        "To speed up routine mathematical operations in user applications",
+        "To protect critical system memory and hardware from unauthorized process access",
+        "To permit standard users to modify system firmware settings",
+        "To reduce the overall energy consumption of the CPU"
+      ],
+      "correct_index": 1,
+      "explanation": "Dual-mode execution isolates critical kernel operations, preventing user applications from crashing the system or misusing hardware.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-83218055528f",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "In concurrent programming, what is the primary purpose of a semaphore?",
+      "options": [
+        "To allocate memory dynamically on the process heap",
+        "To synchronize access to shared resources among multiple processes",
+        "To reorder process priority queues in the scheduler",
+        "To encrypt data transmitted between separate applications"
+      ],
+      "correct_index": 1,
+      "explanation": "Semaphores are synchronization variables used to control access to shared resources and prevent race conditions.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-f66f0eb192bd",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "What is the time complexity of retrieving an element at a known numerical index in a standard array?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "correct_index": 0,
+      "explanation": "Arrays store elements in contiguous memory locations, allowing direct calculation of any element's memory address in constant time.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-88a0960c6267",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "Which data structure operates on a Last-In, First-Out (LIFO) principle?",
+      "options": [
+        "Queue",
+        "Stack",
+        "Linked List",
+        "Binary Tree"
+      ],
+      "correct_index": 1,
+      "explanation": "A stack adds and removes elements from the same end (the top), making the most recently added item the first one to be removed.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-5d9b41b163d8",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "When implementing Breadth-First Search (BFS) on a graph or tree, which data structure is primarily used to track nodes to visit next?",
+      "options": [
+        "Stack",
+        "Priority Queue",
+        "Queue",
+        "Hash Map"
+      ],
+      "correct_index": 2,
+      "explanation": "BFS explores nodes level by level, requiring a First-In, First-Out (FIFO) queue to process nodes in the order they were discovered.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-a4d504921f58",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "What is the worst-case time complexity of searching for a value in a balanced Binary Search Tree (BST) with n nodes?",
+      "options": [
+        "O(1)",
+        "O(log n)",
+        "O(n)",
+        "O(n log n)"
+      ],
+      "correct_index": 1,
+      "explanation": "In a balanced BST, each comparison eliminates half of the remaining subtrees, leading to a logarithmic search time.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-1cdb138c1850",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "What is the time complexity of prepending a new node to the front of a singly linked list?",
+      "options": [
+        "O(1)",
+        "O(n)",
+        "O(log n)",
+        "O(n^2)"
+      ],
+      "correct_index": 0,
+      "explanation": "Inserting at the head requires updating only the new node's next pointer and the head pointer, taking constant time regardless of list size.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-0fb37d0df472",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "Which popular sorting algorithm has an average-case time complexity of O(n log n) but degrades to O(n^2) in its worst case?",
+      "options": [
+        "Merge Sort",
+        "Quick Sort",
+        "Heap Sort",
+        "Counting Sort"
+      ],
+      "correct_index": 1,
+      "explanation": "Quick Sort operates in O(n log n) average time, but poor pivot choices can lead to O(n^2) time complexity.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-3bb606fdde36",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "In a hash table, what is the technique called when key collisions are resolved by storing multiple items at the same index using a linked list?",
+      "options": [
+        "Open Addressing",
+        "Linear Probing",
+        "Separate Chaining",
+        "Double Hashing"
+      ],
+      "correct_index": 2,
+      "explanation": "Separate chaining resolves collisions by maintaining a linked list or similar container at each array bucket.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-dc97c3a9008a",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "Which algorithmic technique uses two pointers moving at different speeds to detect a loop in a linked list?",
+      "options": [
+        "Floyd's Cycle-Finding Algorithm",
+        "Dijkstra's Algorithm",
+        "Binary Search",
+        "Kadane's Algorithm"
+      ],
+      "correct_index": 0,
+      "explanation": "Floyd's algorithm uses a slow and fast pointer; if a cycle exists, the fast pointer will eventually catch up to the slow one.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-c682b4023cc5",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "What primary characteristic distinguishes Dynamic Programming from simple recursion?",
+      "options": [
+        "Using a divide-and-conquer strategy",
+        "Storing solutions to overlapping subproblems to avoid redundant work",
+        "Sorting data prior to processing",
+        "Executing sub-functions asynchronously"
+      ],
+      "correct_index": 1,
+      "explanation": "Dynamic programming optimizes recursive algorithms by memoizing or tabulating subproblem results so each subproblem is solved only once.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dsa-easy-d7d724417578",
+      "topic": "dsa",
+      "topic_name": "Data Structures & Algorithms",
+      "difficulty": "easy",
+      "question": "Which data structure is best suited for evaluating postfix math expressions (Reverse Polish Notation)?",
+      "options": [
+        "Queue",
+        "Array",
+        "Stack",
+        "Graph"
+      ],
+      "correct_index": 2,
+      "explanation": "Operands are pushed onto a stack, and when an operator is encountered, the top two operands are popped, evaluated, and the result is pushed back.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-b460802c72be",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "Why does standard L2 regularization behave differently from weight decay when using the Adam optimizer, prompting the adoption of AdamW?",
+      "options": [
+        "In Adam, L2 regularization scales gradients by the inverse square root of second moments, altering decay rates. AdamW decouples weight decay directly from gradient updates.",
+        "Adam ignores the L2 norm term during the momentum calculation phase.",
+        "L2 regularization causes the learning rate to decay exponentially fast in adaptive methods.",
+        "Weight decay in AdamW modifies the loss function directly, whereas L2 regularization decouples update step scaling."
+      ],
+      "correct_index": 0,
+      "explanation": "In Adam, L2 regularization scales gradients by the inverse square root of second moments, altering decay rates. AdamW decouples weight decay directly from gradient updates.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-30bb4d8983e2",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "How does Direct Preference Optimization (DPO) simplify the Reinforcement Learning from Human Feedback (RLHF) pipeline compared to traditional PPO?",
+      "options": [
+        "It eliminates the need for a pairwise preference dataset by using self-critique prompts.",
+        "It analytically parameterizes the reward model loss into an implicit reward function, removing the need for a separate reward model and actor-critic loops.",
+        "It replaces the policy network with a static lookup table of human preference scores.",
+        "It uses a deterministic gradient descent step that bypasses the need for a reference model."
+      ],
+      "correct_index": 1,
+      "explanation": "DPO analytically parameterizes the reward function using the policy network, enabling direct optimization on preference pairs without training a separate reward model or using PPO.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-e686bf98489b",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "During autoregressive Transformer inference, what primary bottleneck is addressed by Key-Value (KV) Caching, and what trade-off does it introduce?",
+      "options": [
+        "It reduces compute redundancy by storing past K and V tensors, at the cost of significantly increased GPU memory consumption.",
+        "It reduces parameter count by sharing K and V projections across layers, at the cost of lower attention accuracy.",
+        "It eliminates the need for positional embeddings, at the cost of restricted maximum context window length.",
+        "It reduces network latency in distributed setups, at the cost of higher CPU-to-GPU memory transfer overhead."
+      ],
+      "correct_index": 0,
+      "explanation": "KV caching retains previously calculated Key and Value activation vectors in GPU memory, avoiding redundant recomputation per generated token at the expense of higher memory footprint.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-52400616e041",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "In deep learning, what characterizes the 'Deep Double Descent' phenomenon regarding test error as model capacity or training epochs increase?",
+      "options": [
+        "Test error decreases, increases beyond the interpolation threshold, and then stays permanently constant.",
+        "Test error decreases, increases as model overfits (classical regime), then decreases again beyond the interpolation threshold (overparameterized regime).",
+        "Test error strictly decreases monotonically as model size increases, bypassing the classical bias-variance tradeoff entirely.",
+        "Test error spikes twice: first when learning rate is too high, and second when batch size is too small."
+      ],
+      "correct_index": 1,
+      "explanation": "Double descent shows test error initially improving, worsening near the interpolation point where the model perfectly fits data, and then decreasing again as capacity grows further.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-bfdd58cc085d",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "In self-supervised contrastive learning algorithms (e.g., SimCLR), what is the primary role of the temperature hyperparameter in the InfoNCE loss?",
+      "options": [
+        "It controls the learning rate decay schedule of the contrastive projection head.",
+        "It scales the magnitude of hard negative samples' gradients relative to easy negatives.",
+        "It acts as a probability threshold for dropping noisy negative pairs.",
+        "It regularizes the hidden representations to prevent collapse into a zero vector."
+      ],
+      "correct_index": 1,
+      "explanation": "A smaller temperature parameter scales logits before softmax, penalizing hard negative samples more severely and forcing the network to learn fine-grained separation in embedding space.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-265bb2914a0d",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "What is the primary algorithmic innovation behind FlashAttention that speeds up self-attention and reduces memory overhead?",
+      "options": [
+        "It approximates attention matrices using low-rank matrix decomposition.",
+        "It sparsifies the attention matrix by dynamically dropping tokens with low attention weights.",
+        "It uses IO-awareness to tile inputs into blocks, computing exact softmax incrementally without writing intermediate attention matrices to HBM.",
+        "It converts floating-point matrix multiplications into bitwise operations on quantized weights."
+      ],
+      "correct_index": 2,
+      "explanation": "FlashAttention uses tiling and online softmax to compute exact attention in GPU SRAM, eliminating the need to read/write the full N x N attention matrix to HBM.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-69d876cec65b",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "Why is the reparameterization trick necessary when training Variational Autoencoders (VAEs)?",
+      "options": [
+        "To prevent the encoder from outputting infinite variance values during early epochs.",
+        "To allow backpropagation of gradients through the stochastic latent sampling step by isolating randomness into an independent noise variable.",
+        "To enforce a uniform prior distribution on the latent space rather than a Gaussian prior.",
+        "To compress high-dimensional latent codes into discrete categories for vector quantization."
+      ],
+      "correct_index": 1,
+      "explanation": "Sampling is non-differentiable. The reparameterization trick isolates stochasticity into an independent noise tensor, allowing backpropagation of gradients through the deterministic mean and variance parameters.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-a8bfd1efe25e",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "How does Focal Loss address severe class imbalance in dense object detection models?",
+      "options": [
+        "By dynamically scaling down the loss assigned to easy, well-classified background examples via a modulating factor.",
+        "By assigning higher fixed static weights to minority classes in the loss computation.",
+        "By converting multi-class classification into multiple binary logistic regression problems.",
+        "By clamping the gradients of misclassified positive examples to prevent gradient explosion."
+      ],
+      "correct_index": 0,
+      "explanation": "Focal Loss dynamically scales down cross-entropy loss for well-classified examples using a modulating factor, concentrating gradient updates on hard, misclassified instances.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-db3ee8f0aad0",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "In Megatron-LM tensor parallelism for Multi-Layer Perceptrons (MLPs), how are the two consecutive weight matrices (W1 and W2) partitioned to minimize communication overhead?",
+      "options": [
+        "W1 is row-parallel and W2 is column-parallel, requiring an All-Reduce operation after W1.",
+        "W1 is column-parallel and W2 is row-parallel, requiring only a single All-Reduce operation after W2.",
+        "Both W1 and W2 are row-parallel, requiring All-Gather operations after each layer.",
+        "Both W1 and W2 are column-parallel, requiring an All-to-All communication between layers."
+      ],
+      "correct_index": 1,
+      "explanation": "Column-parallel W1 followed by row-parallel W2 allows intermediate activation matrices to remain local on each GPU, requiring only a single All-Reduce communication step after W2.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "ai-ml-hard-4c6f8e63cbc9",
+      "topic": "ai-ml",
+      "topic_name": "Artificial Intelligence & Machine Learning",
+      "difficulty": "hard",
+      "question": "When applying post-hoc Temperature Scaling to calibrate an overconfident neural network classifier, how are predictions affected?",
+      "options": [
+        "It shifts decision boundaries non-linearly, altering final argmax class predictions.",
+        "It rescales logits before the softmax function, adjusting confidence magnitudes without changing predicted class rankings.",
+        "It updates the weights of the final classification layer to reduce empirical loss.",
+        "It prunes low-confidence softmax output nodes to improve inference throughput."
+      ],
+      "correct_index": 1,
+      "explanation": "Temperature scaling divides all logits by scalar T prior to softmax, softening overconfident probabilities to align calibration without changing class rankings or argmax predictions.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-00b7bfebaa35",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "What happens during a TCP connection establishment if the server sends a SYN-ACK segment, but the final ACK sent by the client is lost in transit?",
+      "options": [
+        "The connection is immediately established on both ends regardless of the lost ACK.",
+        "The server retransmits the SYN-ACK segment after a timeout until the ACK is received or the connection times out.",
+        "The client detects the missing ACK and immediately aborts the connection with a RST segment.",
+        "The server automatically degrades the connection into a UDP socket stream."
+      ],
+      "correct_index": 1,
+      "explanation": "If the final ACK is lost, the server remains in the SYN-RECEIVED state and retransmits the SYN-ACK segment after a timer expires.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-2d76d9fac2eb",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "A network administrator assigns the IP address block 192.168.10.0/26 to a subnet. How many usable host IP addresses are available in this subnet?",
+      "options": [
+        "64",
+        "62",
+        "30",
+        "126"
+      ],
+      "correct_index": 1,
+      "explanation": "A /26 prefix leaves 6 host bits (2^6 = 64 addresses). Subtracting 2 for network and broadcast addresses leaves 62 usable host addresses.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-1f9932d80a5e",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "Which key feature introduced in HTTP/2 resolves the Head-of-Line (HoL) blocking problem present at the application layer in HTTP/1.1?",
+      "options": [
+        "Gzip payload compression",
+        "Multiplexing over a single TCP connection",
+        "Stateless cookie handling",
+        "Asymmetric key exchange"
+      ],
+      "correct_index": 1,
+      "explanation": "HTTP/2 multiplexing allows multiple request and response messages to be interleaved concurrently over a single TCP connection, preventing application-level HoL blocking.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-8d35918297ee",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "What fundamental routing algorithm does the Open Shortest Path First (OSPF) protocol use to compute the best path to a destination?",
+      "options": [
+        "Bellman-Ford algorithm based on hop count",
+        "Dijkstra's algorithm based on link cost",
+        "Path-vector algorithm based on autonomous system paths",
+        "Distance-vector algorithm with split horizon"
+      ],
+      "correct_index": 1,
+      "explanation": "OSPF is a link-state routing protocol that constructs a full topology map and applies Dijkstra's algorithm to calculate the shortest path tree.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-334cc23500fe",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "What action does a Layer 2 network switch take when it receives a unicast frame with a destination MAC address that is not in its MAC address table?",
+      "options": [
+        "It drops the frame immediately to prevent broadcast storms.",
+        "It returns an ICMP Destination Unreachable packet to the sender.",
+        "It floods the frame out of all ports except the receiving port.",
+        "It holds the frame in a buffer until an ARP response is received."
+      ],
+      "correct_index": 2,
+      "explanation": "When a switch receives a frame destined for an unknown MAC address, it performs unknown unicast flooding by forwarding it out all active ports except the ingress port.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-ce9ca064a853",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "How does Port Address Translation (PAT) allow multiple private IP hosts to share a single public IP address simultaneously?",
+      "options": [
+        "By assigning each host a unique static MAC address mapping",
+        "By mapping internal IP addresses to distinct source TCP/UDP port numbers on the public IP",
+        "By dynamically altering the public IP address every few seconds",
+        "By encapsulating internal IP packets inside IPv6 headers"
+      ],
+      "correct_index": 1,
+      "explanation": "PAT modifies outbound packets by replacing private source IPs with the single public IP and assigning unique source port numbers to distinguish concurrent host connections.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-ed72d7e6d896",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "In TCP congestion control, what event triggers a 'Fast Retransmit' before the Retransmission Timeout (RTO) timer expires?",
+      "options": [
+        "Receiving a single NACK segment from the receiver",
+        "Receiving 3 duplicate ACKs for the same sequence number",
+        "Detecting a abrupt drop in incoming network throughput",
+        "Receiving an Explicit Congestion Notification (ECN) flag"
+      ],
+      "correct_index": 1,
+      "explanation": "Receiving three duplicate ACKs signals to the sender that a specific segment was lost, prompting an immediate retransmission without waiting for RTO expiry.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-d591060ccb0a",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "During a recursive DNS lookup, which component is responsible for querying authoritative DNS servers on behalf of the client?",
+      "options": [
+        "The root domain name server",
+        "The client's local OS stub resolver",
+        "The recursive DNS resolver",
+        "The target domain's authoritative name server"
+      ],
+      "correct_index": 2,
+      "explanation": "The recursive DNS resolver receives the query from the client's stub resolver and iteratively traverses the DNS hierarchy to resolve the final IP address.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-ffdcc4a80514",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "Why does TLS (Transport Layer Security) use asymmetric key cryptography during the initial handshake, but switch to symmetric key cryptography for payload transfer?",
+      "options": [
+        "Asymmetric encryption is vulnerable to packet sniffing during payload transfer.",
+        "Symmetric key generation does not require mathematical operations.",
+        "Symmetric encryption is significantly faster and less computationally expensive for bulk data.",
+        "Asymmetric encryption only functions over UDP transport."
+      ],
+      "correct_index": 2,
+      "explanation": "Asymmetric encryption securely authenticates parties and establishes shared keys, while symmetric encryption is used for data transfer due to its superior computational speed.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-medium-40b0d0fc5ea8",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "medium",
+      "question": "In legacy Ethernet networks using CSMA/CD, what is the primary purpose of the binary exponential backoff algorithm?",
+      "options": [
+        "To boost signal strength after frame attenuation",
+        "To dynamically alter switch port VLAN memberships",
+        "To randomly delay retransmissions to reduce subsequent collision probability",
+        "To force colliding nodes to switch from half-duplex to full-duplex"
+      ],
+      "correct_index": 2,
+      "explanation": "After a collision, CSMA/CD uses binary exponential backoff to choose a randomized wait time, expanding the retry delay window to prevent repeated collisions.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-3783bb5f411d",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "Which keyword is used to declare a variable that is block-scoped and cannot be reassigned?",
+      "options": [
+        "var",
+        "let",
+        "const",
+        "static"
+      ],
+      "correct_index": 2,
+      "explanation": "Variables declared with const are block-scoped and cannot be reassigned after initial assignment.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-218385982ec6",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "What is the key difference between the '==' and '===' operators in JavaScript?",
+      "options": [
+        "'==' checks both value and type, while '===' checks value only",
+        "'==' performs type coercion before comparison, while '===' does not",
+        "'===' is used for variable assignment, while '==' is used for comparison",
+        "There is no difference between them in modern JavaScript"
+      ],
+      "correct_index": 1,
+      "explanation": "The '==' operator converts operands to the same type before comparing, whereas '===' strictly checks both value and data type.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-28ad17b5b1f0",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "Which array method creates a new array containing only elements that pass a specific test function?",
+      "options": [
+        "map()",
+        "forEach()",
+        "filter()",
+        "reduce()"
+      ],
+      "correct_index": 2,
+      "explanation": "The filter() method iterates through an array and returns a new array with elements that return true for the callback condition.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-43df4a8c3ead",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "What does the expression 'typeof null' evaluate to in JavaScript?",
+      "options": [
+        "\"null\"",
+        "\"undefined\"",
+        "\"object\"",
+        "\"number\""
+      ],
+      "correct_index": 2,
+      "explanation": "Returning \"object\" for null is a historical JavaScript bug that remains for backward compatibility.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-5388e8588135",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "Which modern JavaScript feature represents the eventual completion or failure of an asynchronous operation?",
+      "options": [
+        "Callback",
+        "Promise",
+        "Generator",
+        "Closure"
+      ],
+      "correct_index": 1,
+      "explanation": "A Promise is an object representing the eventual result of an asynchronous operation and its produced value or error.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-62bc9277ba35",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "Which DOM selection method returns the first element that matches a specified CSS selector?",
+      "options": [
+        "document.getElementById()",
+        "document.getElementsByClassName()",
+        "document.querySelector()",
+        "document.querySelectorAll()"
+      ],
+      "correct_index": 2,
+      "explanation": "document.querySelector() takes a CSS selector string and returns the first matching element node in the document.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-8e31abbf399a",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "What concept allows a inner function to access variables from its parent scope even after the outer function has finished executing?",
+      "options": [
+        "Hoisting",
+        "Closure",
+        "Recursion",
+        "Event Bubbling"
+      ],
+      "correct_index": 1,
+      "explanation": "A closure combines a function with references to its surrounding lexical environment, preserving outer variables.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-f4f6ad04ebb5",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "What is the main operational difference between localStorage and sessionStorage?",
+      "options": [
+        "localStorage holds more data than sessionStorage",
+        "localStorage persists data until manually cleared, while sessionStorage clears when the tab closes",
+        "sessionStorage is accessible across different browser windows",
+        "localStorage is sent to the server with every HTTP request"
+      ],
+      "correct_index": 1,
+      "explanation": "localStorage data has no expiration time, whereas sessionStorage data is purged when the specific browser session or tab ends.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-722b62c7ceec",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "What design technique handles events at a single high-level parent element rather than attaching listeners to multiple child elements?",
+      "options": [
+        "Event Delegation",
+        "Event Capturing",
+        "Throttling",
+        "Debouncing"
+      ],
+      "correct_index": 0,
+      "explanation": "Event delegation relies on event bubbling to manage events efficiently by placing one event listener on a common parent element.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "javascript-easy-30b5f44211d3",
+      "topic": "javascript",
+      "topic_name": "JavaScript & Web Development",
+      "difficulty": "easy",
+      "question": "Which attribute on a <script> tag downloads the script asynchronously and executes it immediately once loaded?",
+      "options": [
+        "defer",
+        "async",
+        "preload",
+        "src"
+      ],
+      "correct_index": 1,
+      "explanation": "The async attribute fetches the script in the background and runs it as soon as it finishes downloading, potentially pausing HTML parsing.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-1e35d73b24b7",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "Given a dataset with tied values (e.g., scores 100, 90, 90, 80), how does DENSE_RANK() differ from RANK() when assigning ranks to these scores?",
+      "options": [
+        "DENSE_RANK() skips rank numbers after a tie, while RANK() assigns consecutive numbers.",
+        "DENSE_RANK() assigns consecutive rank numbers without gaps after ties, while RANK() skips subsequent ranks.",
+        "DENSE_RANK() can only be used with PARTITION BY, whereas RANK() cannot.",
+        "DENSE_RANK() orders elements in ascending order by default, while RANK() orders in descending order."
+      ],
+      "correct_index": 1,
+      "explanation": "DENSE_RANK() produces consecutive rank values without gaps after ties, whereas RANK() leaves gaps in the ranking sequence for tied records.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-33a74a465035",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "You have a composite B-tree index on a table covering columns (department_id, last_name, first_name). Which of the following queries will NOT effectively utilize this index?",
+      "options": [
+        "SELECT * FROM employees WHERE department_id = 10 AND last_name = 'Smith';",
+        "SELECT * FROM employees WHERE department_id = 10;",
+        "SELECT * FROM employees WHERE last_name = 'Smith' AND first_name = 'John';",
+        "SELECT * FROM employees WHERE department_id = 10 AND first_name = 'John';"
+      ],
+      "correct_index": 2,
+      "explanation": "B-tree composite indexes rely on the leftmost prefix rule. Queries omitting the leading indexed column (department_id) cannot use the index to search.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-52b848c76e01",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "How does NOT IN behave differently from NOT EXISTS when the subquery returns a result set containing a NULL value?",
+      "options": [
+        "NOT IN returns no rows at all, while NOT EXISTS still evaluates row by row correctly.",
+        "NOT EXISTS throws a runtime error, whereas NOT IN silently ignores NULL values.",
+        "NOT IN converts NULL values to empty strings, while NOT EXISTS ignores them.",
+        "Both evaluate identically regardless of NULL presence in the subquery."
+      ],
+      "correct_index": 0,
+      "explanation": "If a subquery contains a NULL, NOT IN evaluates to UNKNOWN for all rows, returning zero results. NOT EXISTS evaluates boolean presence, avoiding this pitfall.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-b96696f7899a",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "In standard SQL query execution, which clause is logically processed immediately BEFORE the HAVING clause?",
+      "options": [
+        "WHERE",
+        "GROUP BY",
+        "SELECT",
+        "ORDER BY"
+      ],
+      "correct_index": 1,
+      "explanation": "Logical SQL processing follows FROM -> WHERE -> GROUP BY -> HAVING -> SELECT -> ORDER BY. GROUP BY constructs groups right before HAVING filters them.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-9894ce8e5bdd",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "Which database concurrency anomaly is prevented by the REPEATABLE READ isolation level that is STILL possible under READ COMMITTED?",
+      "options": [
+        "Dirty Read",
+        "Non-Repeatable Read",
+        "Phantom Read",
+        "Lost Update"
+      ],
+      "correct_index": 1,
+      "explanation": "READ COMMITTED prevents reading uncommitted data (dirty reads), but permits non-repeatable reads where re-reading data yields changed values. REPEATABLE READ prevents non-repeatable reads.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-4dfc7af57281",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "When designing a system with low data contention and high read-to-write ratio, why is Optimistic Concurrency Control (OCC) preferred over Pessimistic Locking?",
+      "options": [
+        "OCC guarantees that concurrent writes never fail or require retries.",
+        "OCC avoids holding database locks while reading, increasing overall throughput.",
+        "OCC automatically resolves write conflicts without application logic.",
+        "OCC locks rows immediately upon query execution, preventing deadlocks entirely."
+      ],
+      "correct_index": 1,
+      "explanation": "Optimistic locking avoids acquiring expensive locks during data retrieval, validating changes only at commit time. This significantly reduces lock overhead when conflict rates are low.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-16808e926a03",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "What is the result of running SELECT COUNT(*), COUNT(status) FROM orders; if the table contains 5 rows where status values are ('pending', 'shipped', NULL, 'delivered', NULL)?",
+      "options": [
+        "COUNT(*) = 5, COUNT(status) = 3",
+        "COUNT(*) = 3, COUNT(status) = 3",
+        "COUNT(*) = 5, COUNT(status) = 5",
+        "COUNT(*) = 3, COUNT(status) = 5"
+      ],
+      "correct_index": 0,
+      "explanation": "COUNT(*) counts all rows regardless of NULL values, whereas COUNT(column_name) ignores NULL entries, returning 5 total rows and 3 non-null status values.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-81de8b896d80",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "In a relational schema with a foreign key constraint set to ON DELETE RESTRICT, what happens when you attempt to delete a parent row referenced by child rows?",
+      "options": [
+        "The parent row is deleted and foreign key fields in child rows are set to NULL.",
+        "The database raises an error and prevents deletion of the parent row.",
+        "The parent row and all referencing child rows are deleted automatically.",
+        "The deletion request is queued until child rows are deleted manually."
+      ],
+      "correct_index": 1,
+      "explanation": "RESTRICT prevents deletion of a parent row if dependent child records exist, throwing a constraint violation error immediately.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-1dff0ef50b25",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "What is a primary functional or performance difference between a Common Table Expression (CTE) defined with WITH and a Temporary Table in SQL?",
+      "options": [
+        "Temporary tables exist only for a single query, whereas CTEs persist across the entire user session.",
+        "CTEs can be indexed with custom B-tree indexes, while temporary tables cannot.",
+        "CTEs are query-scoped inline expressions, whereas temporary tables are session-scoped objects that can hold materialized data and custom indexes.",
+        "Temporary tables consume no memory because they operate purely in the execution plan buffer."
+      ],
+      "correct_index": 2,
+      "explanation": "CTEs are temporary, inline construct definitions scoped to a single statement, whereas temp tables persist for a session and support independent indexing and multi-statement references.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "dbms-medium-a8629cc7b018",
+      "topic": "dbms",
+      "topic_name": "Databases & SQL",
+      "difficulty": "medium",
+      "question": "A relation is in Third Normal Form (3NF). Under what condition does it FAIL to be in Boyce-Codd Normal Form (BCNF)?",
+      "options": [
+        "When it contains a partial dependency on a composite candidate key.",
+        "When a non-prime attribute determines another non-prime attribute.",
+        "When a non-trivial functional dependency X -> Y exists where X is not a superkey, even if Y is a prime attribute.",
+        "When the relation contains multi-valued dependencies across independent attributes."
+      ],
+      "correct_index": 2,
+      "explanation": "BCNF strictly requires every determinant in a non-trivial functional dependency to be a superkey, whereas 3NF allows exceptions if the dependent attribute is prime.",
+      "date_added": "2026-08-28"
+    }
+  ]
+}
