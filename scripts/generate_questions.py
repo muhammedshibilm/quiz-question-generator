@@ -1,34 +1,3 @@
-"""
-generate_questions.py
-
-Runs daily via GitHub Actions.
-1. Scrapes a short factual summary about each topic from Wikipedia (for grounding).
-2. Feeds that context + instructions to the Google Gemini API (free tier,
-   no credit card required) to generate interview-style multiple-choice
-   questions in English.
-3. Writes results to data/questions.json (committed back to the repo by the workflow).
-
-NOTE: This used to call GitHub Models, but that service was fully retired
-by GitHub on July 30, 2026. Gemini's free tier is the replacement - see
-README.md for how to get a free API key and add it as a repo secret.
-
-The app fetches this JSON from:
-  https://raw.githubusercontent.com/<you>/<repo>/main/data/questions.json
-
-Each question looks like:
-{
-  "id": "...",
-  "topic": "ai-ml",
-  "topic_name": "Artificial Intelligence & Machine Learning",
-  "difficulty": "medium",
-  "question": "...",
-  "options": ["...", "...", "...", "..."],
-  "correct_index": 2,
-  "explanation": "...",
-  "date_added": "2026-08-28"
-}
-"""
-
 import os
 import sys
 import json
@@ -45,7 +14,7 @@ TOPICS_PATH = SCRIPT_DIR / "topics.json"
 
 # Get a free key (no credit card) from https://aistudio.google.com/apikey
 GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL = "gemini-2.5-flash"  # generous free tier: ~250 requests/day
+MODEL = "gemini-3.6-flash"  # generous free tier: ~250 requests/day
 ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
 
 DIFFICULTIES = ["easy", "medium", "hard"]
