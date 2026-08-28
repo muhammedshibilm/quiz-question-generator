@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-08-28T04:29:26.427892Z",
-  "total_questions": 110,
+  "generated_at": "2026-08-28T04:45:19.759530Z",
+  "total_questions": 140,
   "questions": [
     {
       "id": "networking-easy-64e128e7bbe6",
@@ -1760,6 +1760,486 @@
       ],
       "correct_index": 1,
       "explanation": "Global DNS services like Route 53 and Azure Traffic Manager monitor health and route client queries to the nearest responsive multi-cloud endpoint.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-a0e7822946b6",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which OSI layer is primarily responsible for ensuring end-to-end reliable data delivery and flow control across a network?",
+      "options": [
+        "Application Layer",
+        "Network Layer",
+        "Transport Layer",
+        "Data Link Layer"
+      ],
+      "correct_index": 2,
+      "explanation": "The Transport Layer (e.g., TCP) provides end-to-end communication services, including reliability, flow control, and error correction.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-4ad88cb55a5f",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "What is the main purpose of the Dynamic Host Configuration Protocol (DHCP) in a network?",
+      "options": [
+        "To translate domain names into IP addresses",
+        "To automatically assign IP addresses and network configurations to devices",
+        "To secure wireless transmissions using encryption",
+        "To route packets between different subnets"
+      ],
+      "correct_index": 1,
+      "explanation": "DHCP automatically assigns IP addresses, subnet masks, default gateways, and other network settings to client devices.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-3e85d1cc00c4",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "How does a client resolve a human-readable domain name like example.com into a machine-readable IP address?",
+      "options": [
+        "By querying a DNS server",
+        "By requesting an ARP response",
+        "By sending a DHCP DISCOVER packet",
+        "By establishing an ICMP handshake"
+      ],
+      "correct_index": 0,
+      "explanation": "The Domain Name System (DNS) translates human-readable domain names into machine-readable IP addresses required for routing data.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-81642dd6c805",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "At which layer of the OSI model does a standard network switch primarily operate to forward frames within a LAN?",
+      "options": [
+        "Layer 1 (Physical)",
+        "Layer 2 (Data Link)",
+        "Layer 3 (Network)",
+        "Layer 4 (Transport)"
+      ],
+      "correct_index": 1,
+      "explanation": "Standard switches operate at Layer 2 (Data Link layer), using MAC addresses to forward frames within the local network.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-4fd2c3713622",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which protocol does the ping utility use to test host reachability across an IP network?",
+      "options": [
+        "TCP",
+        "UDP",
+        "ICMP",
+        "ARP"
+      ],
+      "correct_index": 2,
+      "explanation": "The ping command uses Internet Control Message Protocol (ICMP) Echo Request and Echo Reply messages to test IP network connectivity.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-fdf7235159b0",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Why might a real-time video streaming application prefer UDP over TCP for transmitting video frames?",
+      "options": [
+        "UDP guarantees that all packets arrive in strict sequential order",
+        "UDP has lower latency overhead because it does not require connection setup or retransmissions",
+        "UDP automatically encrypts payload data to ensure user privacy",
+        "UDP provides built-in flow control and congestion management"
+      ],
+      "correct_index": 1,
+      "explanation": "UDP avoids connection setup delays and retransmission overhead, making it ideal for time-sensitive, loss-tolerant streams.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-299aa167439a",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "What type of address is a 48-bit hardware identifier permanently assigned to a Network Interface Card (NIC)?",
+      "options": [
+        "IP Address",
+        "MAC Address",
+        "Port Address",
+        "Subnet Mask"
+      ],
+      "correct_index": 1,
+      "explanation": "A Media Access Control (MAC) address is a unique 48-bit physical identifier assigned to network interfaces for local segment communication.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-8feaebf511f2",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which default port is typically used for secure web traffic encrypted via TLS/SSL (HTTPS)?",
+      "options": [
+        "Port 21",
+        "Port 80",
+        "Port 443",
+        "Port 8080"
+      ],
+      "correct_index": 2,
+      "explanation": "Port 443 is the standard default port designated for secure HTTP traffic using TLS/SSL encryption.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-62513721ea73",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "In a local IP network, what role does the default gateway serve for connected endpoints?",
+      "options": [
+        "It caches web page files locally for faster loading times",
+        "It assigns static MAC addresses to physical network interfaces",
+        "It acts as the outbound hop for traffic destined outside the local IP subnet",
+        "It authenticates user credentials when connecting to a Wi-Fi network"
+      ],
+      "correct_index": 2,
+      "explanation": "The default gateway is the router interface that forwards local device traffic destined for remote networks or the internet.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "networking-easy-144f00613600",
+      "topic": "networking",
+      "topic_name": "Computer Networks",
+      "difficulty": "easy",
+      "question": "Which protocol is responsible for mapping a known target IPv4 address to its corresponding physical MAC address on a local segment?",
+      "options": [
+        "Address Resolution Protocol (ARP)",
+        "Border Gateway Protocol (BGP)",
+        "Domain Name System (DNS)",
+        "Simple Network Management Protocol (SNMP)"
+      ],
+      "correct_index": 0,
+      "explanation": "ARP resolves logical IPv4 addresses to physical MAC addresses required for data link layer delivery on local networks.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-bfc0620e5b8f",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "How does an operating system benefit from using virtual memory?",
+      "options": [
+        "It speeds up CPU execution by bypassing RAM entirely.",
+        "It allows programs to address more memory than is physically available in RAM.",
+        "It permanently saves running process states directly to the BIOS.",
+        "It reduces the need for secondary storage devices like SSDs."
+      ],
+      "correct_index": 1,
+      "explanation": "Virtual memory maps virtual addresses to physical RAM and secondary storage, allowing programs to execute even if they exceed physical memory capacity.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-c87dd4c90586",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What occurs during a process context switch managed by the OS kernel?",
+      "options": [
+        "The CPU switches from 32-bit mode to 64-bit execution mode.",
+        "The OS saves the state of the active process and loads the state of another process.",
+        "The system shuts down idle hardware components to save power.",
+        "A process converts its high-level code directly into assembly language."
+      ],
+      "correct_index": 1,
+      "explanation": "Context switching involves saving the CPU state of a running process and restoring another process's saved state so execution can resume later.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-34865ed6ec82",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is the primary purpose of a system call in an operating system?",
+      "options": [
+        "To allow user-level applications to request services directly from the kernel.",
+        "To compile source code into executable binaries automatically.",
+        "To optimize network bandwidth between remote servers.",
+        "To bypass hardware permissions for faster program execution."
+      ],
+      "correct_index": 0,
+      "explanation": "System calls provide a controlled interface for user applications to request privileged operations, such as file management or hardware access, from the kernel.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-b687f1d39dba",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "In terms of resource allocation, how do threads within the same process typically differ from separate processes?",
+      "options": [
+        "Threads do not share the process's execution context or instructions.",
+        "Threads share the same address space and resources of their parent process.",
+        "Processes share memory automatically without explicit IPC mechanisms.",
+        "Threads require separate isolated memory spaces created by the OS kernel."
+      ],
+      "correct_index": 1,
+      "explanation": "Threads in the same process share the parent's memory space and resources, enabling faster communication and lower creation overhead than separate processes.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-9666e16fffc0",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Which of the following scenarios describes a 'mutual exclusion' condition required for a deadlock to occur?",
+      "options": [
+        "At least one resource must be held in a non-shareable mode by only one process at a time.",
+        "Processes must release resources voluntarily after a fixed time slice.",
+        "The OS must preemptively take resources away from long-running processes.",
+        "All processes must request resources simultaneously at system boot."
+      ],
+      "correct_index": 0,
+      "explanation": "Mutual exclusion means a resource can only be held by one process at a time, which is one of the four essential Coffman conditions for deadlocks.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-5f9264f5e345",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Why is a fixed time quantum crucial in Round Robin CPU scheduling?",
+      "options": [
+        "It ensures short jobs are always completed before long jobs start.",
+        "It gives every process equal CPU execution time slices to prevent starvation.",
+        "It eliminates all context-switching overhead completely.",
+        "It prioritizes processes based on their memory consumption."
+      ],
+      "correct_index": 1,
+      "explanation": "Round Robin assigns fixed time slices to processes in turn, ensuring equitable CPU distribution and preventing any single process from monopolizing the processor.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-510bd459a08a",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is the main structural difference between paging and segmentation in memory management?",
+      "options": [
+        "Paging divides memory into fixed-size blocks, whereas segmentation divides memory into variable-sized logical blocks.",
+        "Paging is handled purely by hardware, while segmentation is handled exclusively by software.",
+        "Paging eliminates internal fragmentation, while segmentation eliminates external fragmentation.",
+        "Segmentation divides memory into fixed 4KB blocks, while paging handles variable segments."
+      ],
+      "correct_index": 0,
+      "explanation": "Paging splits memory into uniform, fixed-size pages, while segmentation divides memory into variable-sized sections based on logical program components (like functions or arrays).",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-1a17fc6b8f5d",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What is 'thrashing' in an operating system's virtual memory management?",
+      "options": [
+        "A continuous cycle of hardware overheating due to maximum CPU utilization.",
+        "A state where the OS spends more time swapping pages in and out than executing actual code.",
+        "A security attack that overwhelms system call buffers with invalid inputs.",
+        "Rapid disk corruption caused by sudden power loss during file writes."
+      ],
+      "correct_index": 1,
+      "explanation": "Thrashing occurs when main memory is overcommitted, causing the OS to spend excessive time swapping pages between RAM and disk instead of performing useful work.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-63501461b7a9",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "Why do modern operating systems separate execution into User Mode and Kernel Mode?",
+      "options": [
+        "To allow user programs to directly modify hardware drivers without approval.",
+        "To restrict user applications from directly executing privileged instructions that could compromise stability.",
+        "To split processing loads evenly across multiple CPU cores automatically.",
+        "To ensure user applications run faster than background system processes."
+      ],
+      "correct_index": 1,
+      "explanation": "Dual-mode operation prevents faulty or malicious user applications from executing dangerous instructions or directly corrupting hardware and system memory.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "os-easy-3ad587af1255",
+      "topic": "os",
+      "topic_name": "Operating Systems",
+      "difficulty": "easy",
+      "question": "What role does an interrupt handler play when a hardware device sends an interrupt signal to the CPU?",
+      "options": [
+        "It terminates all running user applications to protect system memory.",
+        "It pauses current CPU execution to run specific code that handles the device event.",
+        "It translates hardware instructions into high-level programming code.",
+        "It permanently saves the CPU cache onto secondary storage for auditing."
+      ],
+      "correct_index": 1,
+      "explanation": "An interrupt handler temporarily halts normal execution to process urgent events from hardware or software, returning control once the event is serviced.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-420f2d6a7669",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "An application team wants to deploy a web app without managing underlying operating systems, server patching, or hardware provisioning. Which cloud service model best fits this requirement?",
+      "options": [
+        "Infrastructure as a Service (IaaS)",
+        "Platform as a Service (PaaS)",
+        "Software as a Service (SaaS)",
+        "Function as a Service (FaaS)"
+      ],
+      "correct_index": 1,
+      "explanation": "PaaS handles OS patching, server maintenance, and hardware management, allowing developers to focus solely on writing and deploying application code.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-2d5035117690",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "You need a cloud storage solution to store millions of unstructured static images that can be accessed globally via HTTP URLs. Which storage type should you choose?",
+      "options": [
+        "Block Storage",
+        "Object Storage",
+        "Relational Database Storage",
+        "Network File System (NFS)"
+      ],
+      "correct_index": 1,
+      "explanation": "Object storage (such as AWS S3 or Azure Blob) is designed for unstructured media files accessible over HTTP/HTTPS with massive scalability.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-b801982f63d1",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "A retail website experiences unpredictable traffic spikes during flash sales and needs to automatically add and remove compute resources based on demand. Which cloud concept enables this?",
+      "options": [
+        "High Availability",
+        "Fault Tolerance",
+        "Elasticity",
+        "Disaster Recovery"
+      ],
+      "correct_index": 2,
+      "explanation": "Elasticity allows a cloud infrastructure to dynamically scale compute resources up or down automatically based on real-time application load.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-143a92b863bd",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Under the Cloud Shared Responsibility Model, which security task is typically the responsibility of the customer when using an IaaS virtual machine?",
+      "options": [
+        "Fixing physical hardware faults on host servers",
+        "Patching the guest operating system and application software",
+        "Maintaining datacenter physical access controls",
+        "Upgrading the underlying hypervisor software"
+      ],
+      "correct_index": 1,
+      "explanation": "In IaaS, the provider secures the physical infrastructure, while the customer manages the guest OS, software updates, and data security.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-b0ab2f7f8733",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "What is the primary operational benefit of deploying an application across multiple Availability Zones (AZs) within the same cloud region?",
+      "options": [
+        "Achieving zero network latency globally",
+        "Eliminating all cloud infrastructure costs",
+        "Protecting the application against local data center outages",
+        "Complying with strict cross-border data sovereignty laws"
+      ],
+      "correct_index": 2,
+      "explanation": "Availability Zones are physically separated data centers in a region, providing high availability and protection against localized facility outages.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-f52de00fd9b1",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "A startup wants to reduce compute costs for non-critical, background batch processing tasks that can be interrupted safely. Which pricing model is most cost-effective?",
+      "options": [
+        "On-Demand / Pay-As-You-Go Instances",
+        "Reserved / Committed Use Instances",
+        "Spot / Low-Priority Instances",
+        "Dedicated Host Instances"
+      ],
+      "correct_index": 2,
+      "explanation": "Spot or Low-Priority instances offer spare cloud compute capacity at steep discounts, ideal for fault-tolerant and flexible workloads.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-fd52a678bab2",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Which computing paradigm executes application code only in response to events, automatically scales hardware, and charges strictly for active execution time?",
+      "options": [
+        "Container Orchestration",
+        "Serverless Computing",
+        "Virtual Machine Scale Sets",
+        "Bare Metal Hosting"
+      ],
+      "correct_index": 1,
+      "explanation": "Serverless computing (like AWS Lambda or Azure Functions) executes code on demand without persistent infrastructure and bills only for active execution duration.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-c5399734da49",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "Which identity security principle dictates that a user or application service account should be granted only the minimum permissions necessary to complete assigned tasks?",
+      "options": [
+        "Principle of Defense in Depth",
+        "Principle of Least Privilege",
+        "Principle of Zero Trust Architecture",
+        "Principle of Separation of Duties"
+      ],
+      "correct_index": 1,
+      "explanation": "The Principle of Least Privilege ensures identities receive strictly the access required for their role, minimizing potential damage from breaches.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-d3dd76acf38a",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "In cloud network architecture, what is the primary purpose of a Virtual Private Cloud (VPC) or Virtual Network (VNet)?",
+      "options": [
+        "To provide scalable object storage for applications",
+        "To establish an isolated, private virtual network for cloud resources",
+        "To translate application code across different operating systems",
+        "To cache static web assets at global edge locations"
+      ],
+      "correct_index": 1,
+      "explanation": "A VPC or VNet provides a logically isolated virtual network where you control IP ranges, subnets, routing, and access policies.",
+      "date_added": "2026-08-28"
+    },
+    {
+      "id": "cloud-easy-bca59cd95602",
+      "topic": "cloud",
+      "topic_name": "Cloud Computing (AWS/Azure/GCP basics)",
+      "difficulty": "easy",
+      "question": "A financial company keeps sensitive customer data in its local data center while hosting its public web application in AWS/Azure. Which cloud deployment model does this describe?",
+      "options": [
+        "Private Cloud",
+        "Public Cloud",
+        "Hybrid Cloud",
+        "Multi-Cloud"
+      ],
+      "correct_index": 2,
+      "explanation": "A hybrid cloud model integrates on-premises private infrastructure with public cloud environments to share data and applications seamlessly.",
       "date_added": "2026-08-28"
     }
   ]
