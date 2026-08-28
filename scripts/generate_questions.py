@@ -3,9 +3,14 @@ generate_questions.py
 
 Runs daily via GitHub Actions.
 1. Scrapes a short factual summary about each topic from Wikipedia (for grounding).
-2. Feeds that context + instructions to GitHub Models (free inference) to
-   generate interview-style multiple-choice questions in English.
+2. Feeds that context + instructions to the Google Gemini API (free tier,
+   no credit card required) to generate interview-style multiple-choice
+   questions in English.
 3. Writes results to data/questions.json (committed back to the repo by the workflow).
+
+NOTE: This used to call GitHub Models, but that service was fully retired
+by GitHub on July 30, 2026. Gemini's free tier is the replacement - see
+README.md for how to get a free API key and add it as a repo secret.
 
 The app fetches this JSON from:
   https://raw.githubusercontent.com/<you>/<repo>/main/data/questions.json
@@ -38,13 +43,14 @@ SCRIPT_DIR = Path(__file__).parent
 DATA_PATH = SCRIPT_DIR.parent / "data" / "questions.json"
 TOPICS_PATH = SCRIPT_DIR / "topics.json"
 
-GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
-MODEL = "gpt-4o-mini"  # swap to "Llama-3.3-70B-Instruct" if rate-limited
-ENDPOINT = "https://models.inference.ai.azure.com/chat/completions"
+# Get a free key (no credit card) from https://aistudio.google.com/apikey
+GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
+MODEL = "gemini-2.5-flash"  # generous free tier: ~250 requests/day
+ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
 
 DIFFICULTIES = ["easy", "medium", "hard"]
 QUESTIONS_PER_BATCH = 10
-MAX_COMBOS_PER_RUN = 10  # topic + difficulty pairs per run
+MAX_COMBOS_PER_RUN = 10  # topic + difficulty pairs per run (well under free daily quota)
 DELAY_BETWEEN_CALLS_SEC = 5
 RETENTION_DAYS = 60
 
@@ -105,29 +111,27 @@ Respond with ONLY a raw JSON array (no markdown fences, no preamble), where each
 def call_model(prompt: str) -> list:
     resp = requests.post(
         ENDPOINT,
-        headers={
-            "Content-Type": "application/json",
-            "Authorization": f"Bearer {GITHUB_TOKEN}",
-        },
+        headers={"Content-Type": "application/json"},
+        params={"key": GEMINI_API_KEY},
         json={
-            "model": MODEL,
-            "messages": [
-                {
-                    "role": "system",
-                    "content": "You output only raw JSON arrays. Never include markdown code fences, explanations, or any text outside the JSON array itself.",
-                },
-                {"role": "user", "content": prompt},
-            ],
-            "max_tokens": 4000,
-            "temperature": 0.8,
+            "contents": [{"parts": [{"text": prompt}]}],
+            "generationConfig": {
+                "temperature": 0.8,
+                "maxOutputTokens": 4000,
+                "responseMimeType": "application/json",
+            },
         },
         timeout=60,
     )
     if not resp.ok:
-        raise RuntimeError(f"GitHub Models API error {resp.status_code}: {resp.text}")
+        raise RuntimeError(f"Gemini API error {resp.status_code}: {resp.text}")
 
     data = resp.json()
-    text = data["choices"][0]["message"]["content"]
+    try:
+        text = data["candidates"][0]["content"]["parts"][0]["text"]
+    except (KeyError, IndexError):
+        raise RuntimeError(f"Unexpected Gemini response shape: {data}")
+
     cleaned = text.strip()
     if cleaned.startswith("```"):
         cleaned = cleaned.split("```")[1]
@@ -142,8 +146,8 @@ def make_id(topic_id: str, difficulty: str, question_text: str) -> str:
 
 
 def main():
-    if not GITHUB_TOKEN:
-        print("Missing GITHUB_TOKEN environment variable.", file=sys.stderr)
+    if not GEMINI_API_KEY:
+        print("Missing GEMINI_API_KEY environment variable.", file=sys.stderr)
         sys.exit(1)
 
     with open(TOPICS_PATH) as f:
