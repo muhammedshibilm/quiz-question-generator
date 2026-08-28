@@ -2,19 +2,22 @@ name: Daily Question Generation
 
 on:
   schedule:
-    # Runs at 00:00 UTC every day. Adjust the cron if you want a
-    # different "midnight" reference timezone.
+    # Runs every day at 00:00 UTC
     - cron: "0 0 * * *"
-  workflow_dispatch: {} # allows manually triggering from the Actions tab
+
+  # Allows manual execution from GitHub Actions
+  workflow_dispatch:
 
 permissions:
   contents: write
+  models: read
 
 jobs:
   generate:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
       - name: Set up Python
@@ -23,17 +26,23 @@ jobs:
           python-version: "3.12"
 
       - name: Install dependencies
-        run: pip install -r scripts/requirements.txt
+        run: |
+          pip install -r scripts/requirements.txt
 
       - name: Generate questions
         env:
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: python scripts/generate_questions.py
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          python scripts/generate_questions.py
 
-      - name: Commit updated questions.json
+      - name: Commit updated questions
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+
           git add data/manifest.json data/questions/
-          git diff --staged --quiet || git commit -m "chore: daily question update $(date -u +'%Y-%m-%d')"
+
+          git diff --staged --quiet || git commit \
+            -m "chore: daily question update $(date -u +'%Y-%m-%d')"
+
           git push
