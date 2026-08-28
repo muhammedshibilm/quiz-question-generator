@@ -16,9 +16,13 @@ QUESTIONS_DIR = DATA_DIR / "questions"
 MANIFEST_PATH = DATA_DIR / "manifest.json"
 TOPICS_PATH = SCRIPT_DIR / "topics.json"
 
-GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY")
-MODEL = "gemini-3.6-flash"
-ENDPOINT = f"https://generativelanguage.googleapis.com/v1beta/models/{MODEL}:generateContent"
+# GitHub Models - OpenAI-compatible free inference API.
+# In GitHub Actions, GITHUB_TOKEN already has access if the workflow requests
+# the `models: read` permission - no separate API key/secret needed.
+# Locally, use a fine-grained PAT with the `models:read` scope instead.
+GITHUB_TOKEN = os.environ.get("GITHUB_TOKEN")
+MODEL = "openai/gpt-4o-mini"
+ENDPOINT = "https://models.github.ai/inference/chat/completions"
 
 DIFFICULTIES = ["easy", "medium", "hard"]
 QUESTIONS_PER_BATCH = 10
@@ -26,13 +30,15 @@ MAX_COMBOS_PER_RUN = 10
 DELAY_BETWEEN_CALLS_SEC = 5
 RETENTION_DAYS = 60
 
-# Once a topic/difficulty has this many questions, stop generating more for it -
-# keeps individual topic files (and total daily API usage) from growing forever.
+# Once a topic/difficulty has this many questions, stop generating more for it.
 MAX_QUESTIONS_PER_COMBO = 60
 
 MAX_ATTEMPTS = 4
 BASE_BACKOFF_SEC = 5
-MAX_OUTPUT_TOKENS = 8192
+
+# GitHub Models free tier caps responses around 4K output tokens per request -
+# keep comfortably under that.
+MAX_OUTPUT_TOKENS = 3800
 
 _wiki_cache = {}
 
@@ -80,25 +86,28 @@ Respond with ONLY a raw JSON array (no markdown fences, no preamble), where each
 
 
 class TransientAPIError(Exception):
-    pass
+    """Retryable: 429 short-lived rate limit, 503, empty/truncated output."""
 
 
 class QuotaExhaustedError(Exception):
-    pass
+    """A daily/hard quota cap - retrying within this run won't help."""
 
 
 def _extract_text(data: dict) -> str:
     try:
-        candidate = data["candidates"][0]
+        choice = data["choices"][0]
     except (KeyError, IndexError):
-        raise RuntimeError(f"Unexpected Gemini response shape: {data}")
-    finish_reason = candidate.get("finishReason")
-    parts = candidate.get("content", {}).get("parts", [])
-    text = "".join(p.get("text", "") for p in parts).strip()
+        raise RuntimeError(f"Unexpected GitHub Models response shape: {data}")
+
+    finish_reason = choice.get("finish_reason")
+    text = (choice.get("message", {}) or {}).get("content", "") or ""
+    text = text.strip()
+
     if not text:
-        raise TransientAPIError(f"Empty response text (finishReason={finish_reason}): {data}")
-    if finish_reason == "MAX_TOKENS":
-        raise TransientAPIError("Response was truncated (hit MAX_TOKENS)")
+        raise TransientAPIError(f"Empty response text (finish_reason={finish_reason}): {data}")
+    if finish_reason == "length":
+        raise TransientAPIError("Response was truncated (hit max_tokens)")
+
     return text
 
 
@@ -118,26 +127,29 @@ def call_model(prompt: str) -> list:
         try:
             resp = requests.post(
                 ENDPOINT,
-                headers={"Content-Type": "application/json"},
-                params={"key": GEMINI_API_KEY},
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {GITHUB_TOKEN}",
+                },
                 json={
-                    "contents": [{"parts": [{"text": prompt}]}],
-                    "generationConfig": {
-                        "temperature": 0.8,
-                        "maxOutputTokens": MAX_OUTPUT_TOKENS,
-                        "responseMimeType": "application/json",
-                    },
+                    "model": MODEL,
+                    "messages": [{"role": "user", "content": prompt}],
+                    "temperature": 0.8,
+                    "max_tokens": MAX_OUTPUT_TOKENS,
                 },
                 timeout=90,
             )
+
             if resp.status_code == 429:
-                if "PerDay" in resp.text:
-                    raise QuotaExhaustedError(f"Gemini API error 429 (daily quota): {resp.text}")
-                raise TransientAPIError(f"Gemini API error 429: {resp.text}")
+                # A daily/per-user-per-model quota exhaustion won't recover within
+                # this run; a short-lived RPM rate limit will. Check which one.
+                if "UserByModelByDay" in resp.text or "per day" in resp.text.lower():
+                    raise QuotaExhaustedError(f"GitHub Models 429 (daily quota): {resp.text}")
+                raise TransientAPIError(f"GitHub Models 429: {resp.text}")
             if resp.status_code == 503:
-                raise TransientAPIError(f"Gemini API error 503: {resp.text}")
+                raise TransientAPIError(f"GitHub Models 503: {resp.text}")
             if not resp.ok:
-                raise RuntimeError(f"Gemini API error {resp.status_code}: {resp.text}")
+                raise RuntimeError(f"GitHub Models error {resp.status_code}: {resp.text}")
 
             data = resp.json()
             text = _extract_text(data)
@@ -182,12 +194,6 @@ def load_topic_file(topic_id: str) -> list:
 
 
 def select_todays_combos(topics: list, counts: dict) -> list:
-    """
-    Picks (topic, difficulty) combos with the fewest existing questions,
-    skipping any combo that's already hit MAX_QUESTIONS_PER_COMBO. Ties are
-    randomized. Round-robins across topics so one run spreads coverage
-    widely instead of exhausting a single topic's three difficulties.
-    """
     topic_totals = {
         topic["id"]: sum(counts[(topic["id"], d)] for d in DIFFICULTIES)
         for topic in topics
@@ -218,14 +224,14 @@ def select_todays_combos(topics: list, counts: dict) -> list:
                 topic_cursor[topic["id"]] += 1
                 made_progress = True
         if not made_progress:
-            break  # every combo across every topic has hit the cap
+            break
 
     return selected
 
 
 def main():
-    if not GEMINI_API_KEY:
-        print("Missing GEMINI_API_KEY environment variable.", file=sys.stderr)
+    if not GITHUB_TOKEN:
+        print("Missing GITHUB_TOKEN environment variable.", file=sys.stderr)
         sys.exit(1)
 
     with open(TOPICS_PATH) as f:
@@ -234,7 +240,6 @@ def main():
     QUESTIONS_DIR.mkdir(parents=True, exist_ok=True)
     cutoff_str = (date.today() - timedelta(days=RETENTION_DAYS)).isoformat()
 
-    # Load current per-topic question sets, apply retention.
     topic_questions = {}
     for topic in topics:
         raw = load_topic_file(topic["id"])
@@ -246,8 +251,7 @@ def main():
             counts[(topic_id, q["difficulty"])] += 1
 
     todays_combos = select_todays_combos(topics, counts)
-    print("Today's combos (least-covered first, capped at "
-          f"{MAX_QUESTIONS_PER_COMBO}/combo):")
+    print(f"Today's combos (least-covered first, capped at {MAX_QUESTIONS_PER_COMBO}/combo):")
     for topic, difficulty in todays_combos:
         print(f"  - {topic['id']}/{difficulty}")
 
@@ -284,12 +288,10 @@ def main():
 
         time.sleep(DELAY_BETWEEN_CALLS_SEC)
 
-    # Write one file per topic + a lightweight manifest.
     now_iso = datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
     manifest_topics = []
 
     valid_topic_ids = {t["id"] for t in topics}
-    # Remove files for topics no longer present in topics.json.
     for existing_file in QUESTIONS_DIR.glob("*.json"):
         if existing_file.stem not in valid_topic_ids:
             existing_file.unlink()
@@ -302,13 +304,9 @@ def main():
                 {"topic": topic["id"], "topic_name": topic["name"], "generated_at": now_iso, "questions": qs},
                 f, indent=2, ensure_ascii=False,
             )
-
         diff_counts = {d: len([q for q in qs if q["difficulty"] == d]) for d in DIFFICULTIES}
         manifest_topics.append({
-            "id": topic["id"],
-            "name": topic["name"],
-            "counts": diff_counts,
-            "total": len(qs),
+            "id": topic["id"], "name": topic["name"], "counts": diff_counts, "total": len(qs),
         })
 
     with open(MANIFEST_PATH, "w") as f:
